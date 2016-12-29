@@ -5,10 +5,13 @@ app.preferences.rulerUnits = Units.PIXELS;
 var referenceLayer = "reference",
 	titlePathName = "title",
 	outputDir = "extract",
+	watermarkName = "watermark",
+	fileExt = ".png",
 	padding = 20,
+	watermarkRaceOffset = -16,
 	doc = app.activeDocument,
 	resetLog = true,
-	jsonOnly = true,
+	jsonOnly = false,
 	jsonFile, outputPath, baseName;
 	
 var pngOpts = new ExportOptionsSaveForWeb();
@@ -53,18 +56,25 @@ function main() {
 					log("title path not a simple curve");
 					break;
 				}
-				curvePoints = []
-				for (k = 0; k < numPoints; k++) {
-					point = pathItems[i].subPathItems[j].pathPoints[k];
-					// TODO Adjust points for offset
-					curvePoints.push({
-						"x": Math.round(point.anchor[0]),
-						"y": Math.round(point.anchor[1]),
-						"cx": Math.round(point.leftDirection[0]),
-						"cy": Math.round(point.leftDirection[1])
-					});
+				json["text"]["name"] = {}
+				point = pathItems[i].subPathItems[j].pathPoints[0];
+				json["text"]["name"]["start"] = {
+					"x": Math.round(point.anchor[0] - offset[0]),
+					"y": Math.round(point.anchor[1] - offset[1])
 				}
-				json["text"]["name"] = curvePoints;
+				json["text"]["name"]["controlPoint1"] = {
+					"x": Math.round(point.leftDirection[0] - offset[0]),
+					"y": Math.round(point.leftDirection[1] - offset[1])
+				}
+				point = pathItems[i].subPathItems[j].pathPoints[1];
+				json["text"]["name"]["end"] = {
+					"x": Math.round(point.anchor[0] - offset[0]),
+					"y": Math.round(point.anchor[1] - offset[1])
+				}
+				json["text"]["name"]["controlPoint2"] = {
+					"x": Math.round(point.rightDirection[0] - offset[0]),
+					"y": Math.round(point.rightDirection[1] - offset[1])
+				}
 			}
 		}
 	}	
@@ -83,15 +93,26 @@ function main() {
 				
 				result = reClipName.exec(regionLayer.name);
 				if (result !== null && result.length > 1) {
-						clipType = result[1];
-						json["portraitClip"] = {
-							"type": clipType,
-							"x": regionBounds[0] - offset[0],
-							"y": regionBounds[1] - offset[1],
-							"width": regionBounds[2] - regionBounds[0],
-							"height": regionBounds[3] - regionBounds[1]
-						};
-						continue;
+					clipType = result[1];
+					json["portraitClip"] = {
+						"type": clipType,
+						"x": regionBounds[0] - offset[0],
+						"y": regionBounds[1] - offset[1],
+						"width": regionBounds[2] - regionBounds[0],
+						"height": regionBounds[3] - regionBounds[1]
+					};
+					continue;
+				}
+				
+				if (regionLayer.name == watermarkName) {
+					json[watermarkName] = {
+						"x": regionBounds[0] - offset[0],
+						"y": regionBounds[1] - offset[1],
+						"width": regionBounds[2] - regionBounds[0],
+						"height": regionBounds[3] - regionBounds[1],
+						"offset": watermarkRaceOffset
+					};
+					continue;
 				}
 				
 				json["text"][regionLayer.name] = {
@@ -143,9 +164,9 @@ function addVariant(layer, prefix, json, out, offset, index) {
 	var imageName;
 	log("handle: " + layer + ", " + prefix + ", " + json + ", " + out + ", " + offset + ", " + index)
 	if (prefix.length > 0) {
-		imageName = prefix + "-" + layer.name + ".png";
+		imageName = prefix + "-" + layer.name + fileExt;
 	}	else {
-		imageName = layer.name + ".png";
+		imageName = layer.name + fileExt;
 	}
 	var file = new File(out + "/" + imageName);
 	if (!jsonOnly) {
@@ -178,7 +199,7 @@ function addVariant(layer, prefix, json, out, offset, index) {
 }
 
 function addImage(layer, prefix, json, out, offset, index) {
-		var imageName = prefix + layer.name + ".png";
+		var imageName = prefix + layer.name + fileExt;
 		var file = new File(out + "/" + imageName);
 			
 		log("handle: " + layer + ", " + prefix + ", " + json + ", " + out + ", " + offset + ", " + index)
