@@ -3,9 +3,7 @@
 app.preferences.rulerUnits = Units.PIXELS;
 
 var referenceLayer = "reference",
-	titlePathName = "title",
 	outputDir = "extract",
-	watermarkName = "watermark",
 	fileExt = ".png",
 	padding = 20,
 	watermarkRaceOffset = -16,
@@ -13,7 +11,7 @@ var referenceLayer = "reference",
 	resetLog = true,
 	jsonOnly = false,
 	jsonFile, outputPath, baseName;
-	
+
 var pngOpts = new ExportOptionsSaveForWeb();
 pngOpts.PNG8 = false;
 pngOpts.transparency = true;
@@ -21,34 +19,13 @@ pngOpts.interlaced = false;
 pngOpts.quality = 100;
 pngOpts.includeProfile = false;
 pngOpts.format = SaveDocumentType.PNG;
-	
-function main() {
-	var reGroupName = /(\d+)\s*(\w+)?/,
-		reClipName = /clip\s(\w+)/,
-		dims, offset, json, group, layer, prefix, hasPrefix, result, layerIndex, 
-		i, j, k, regionLayer, regionBounds, clipType, point, pathItems;
-	
-	baseName = doc.name.substring(0, doc.name.length - 4);
-	outputPath = app.activeDocument.path + "/" + outputDir;
-	jsonFile = outputPath + "/" + baseName + ".json";
-	
-	// get the reference layer (a full card image)
-	// to calc the crop dimensions to work from
-	dims = getReferenceLayer();
-	addPadding(dims, padding);
-	// top left coord is the offset to adjust for
-	offset = [dims[0], dims[1]];
-	
-	json = {
-		"width": dims[2] - dims[0],
-		"height": dims[3] - dims[1],
-		"text": {}
-	};
 
+function addPath(pathName, json, offset) {
+	var pathItems, i, point, numPoints;
 	// look for title path
 	pathItems = app.activeDocument.pathItems;
 	for (i = 0; i < pathItems.length; i++) {
-		if (pathItems[i].name == titlePathName) {
+		if (pathItems[i].name == pathName) {
 			for (j = 0; j < pathItems[i].subPathItems.length; j++) {
 				numPoints = pathItems[i].subPathItems[j].pathPoints.length
 				// want it to be a basic curve, not a full path
@@ -56,105 +33,176 @@ function main() {
 					log("title path not a simple curve");
 					break;
 				}
-				json["text"]["name"] = {}
+				json["textCurve"] = {};
 				point = pathItems[i].subPathItems[j].pathPoints[0];
-				json["text"]["name"]["start"] = {
+				json["textCurve"]["start"] = {
 					"x": Math.round(point.anchor[0] - offset[0]),
 					"y": Math.round(point.anchor[1] - offset[1])
 				}
-				json["text"]["name"]["controlPoint1"] = {
+				json["textCurve"]["c1"] = {
 					"x": Math.round(point.leftDirection[0] - offset[0]),
 					"y": Math.round(point.leftDirection[1] - offset[1])
 				}
 				point = pathItems[i].subPathItems[j].pathPoints[1];
-				json["text"]["name"]["end"] = {
+				json["textCurve"]["end"] = {
 					"x": Math.round(point.anchor[0] - offset[0]),
 					"y": Math.round(point.anchor[1] - offset[1])
 				}
-				json["text"]["name"]["controlPoint2"] = {
+				json["textCurve"]["c2"] = {
 					"x": Math.round(point.rightDirection[0] - offset[0]),
 					"y": Math.round(point.rightDirection[1] - offset[1])
 				}
 			}
 		}
-	}	
+	}
+}
+
+// function getTextRegion() {
+// 	// deal with text group separately
+// 	if (group.name == "REGIONS") {
+// 		for (j = 0; j < group.artLayers.length; j++) {
+// 			regionLayer = group.artLayers[j];
+// 			regionBounds = getLayerBounds(regionLayer);
+//
+// 			result = reClipName.exec(regionLayer.name);
+// 			if (result !== null && result.length > 1) {
+// 				clipType = result[1];
+// 				json["portraitClip"] = {
+// 					"type": clipType,
+// 					"x": regionBounds[0] - offset[0],
+// 					"y": regionBounds[1] - offset[1],
+// 					"width": regionBounds[2] - regionBounds[0],
+// 					"height": regionBounds[3] - regionBounds[1]
+// 				};
+// 				continue;
+// 			}
+//
+// 			if (regionLayer.name == watermarkName) {
+// 				json[watermarkName] = {
+// 					"x": regionBounds[0] - offset[0],
+// 					"y": regionBounds[1] - offset[1],
+// 					"width": regionBounds[2] - regionBounds[0],
+// 					"height": regionBounds[3] - regionBounds[1],
+// 					"offset": watermarkRaceOffset
+// 				};
+// 				continue;
+// 			}
+//
+// 			json["text"][regionLayer.name] = {
+// 				"x": regionBounds[0] - offset[0],
+// 				"y": regionBounds[1] - offset[1],
+// 				"width": regionBounds[2] - regionBounds[0],
+// 				"height": regionBounds[3] - regionBounds[1]
+// 			};
+// 		}
+// 		continue;
+// 	}
+// }
+
+function main() {
+	var reGroupName = /(\d+)\s*(\w+)?/,
+		reClipName = /clip\s(\w+)/,
+		reTextLayer = /^text/,
+		reDefaultLayer = /^default/,
+		reClipLayer = /^clip\s+(\w+)/,
+		rePathLayer = /^path\s+(\w+)/,
+		dims, offset, json, group, layer, prefix, hasPrefix, result, layerIndex,
+		i, j, k, regionLayer, regionBounds, clipType, point, pathItems, layerName;
+
+	baseName = doc.name.substring(0, doc.name.length - 4);
+	outputPath = app.activeDocument.path + "/" + outputDir;
+	jsonFile = outputPath + "/" + baseName + ".json";
+
+	// get the reference layer (a full card image)
+	// to calc the crop dimensions to work from
+	dims = getReferenceLayer();
+	addPadding(dims, padding);
+	// top left coord is the offset to adjust for
+	offset = [dims[0], dims[1]];
+
+	json = {
+		"width": dims[2] - dims[0],
+		"height": dims[3] - dims[1]
+	};
+
+	// getPath()
 
 	for (i = 0; i < doc.layerSets.length; i++) {
 		prefix = "", hasPrefix = false, layerIndex = 0;
 		group = doc.layerSets[i];
 		if (group.name === "IGNORE" || group.name === "BACKGROUND")
 			continue;
-		
-		// deal with text group separately
-		if (group.name == "REGIONS") {
-			for (j = 0; j < group.artLayers.length; j++) {
-				regionLayer = group.artLayers[j];
-				regionBounds = getLayerBounds(regionLayer);
-				
-				result = reClipName.exec(regionLayer.name);
-				if (result !== null && result.length > 1) {
-					clipType = result[1];
-					json["portraitClip"] = {
-						"type": clipType,
-						"x": regionBounds[0] - offset[0],
-						"y": regionBounds[1] - offset[1],
-						"width": regionBounds[2] - regionBounds[0],
-						"height": regionBounds[3] - regionBounds[1]
-					};
-					continue;
+
+		// getTextRegion()
+
+		// parse the group names
+		result = reGroupName.exec(group.name);
+		if (result !== null) {
+			if (result.length >= 1) {
+				layerIndex = parseInt(result[0], 10);
+				if (result.length >= 2) {
+					prefix = result[2];
+					hasPrefix = true;
 				}
-				
-				if (regionLayer.name == watermarkName) {
-					json[watermarkName] = {
-						"x": regionBounds[0] - offset[0],
-						"y": regionBounds[1] - offset[1],
-						"width": regionBounds[2] - regionBounds[0],
-						"height": regionBounds[3] - regionBounds[1],
-						"offset": watermarkRaceOffset
-					};
-					continue;
-				}
-				
-				json["text"][regionLayer.name] = {
+			}
+		}
+		log("Group: " + group.name + " = " + prefix + ", " + layerIndex);
+
+		json[prefix] = {};
+		json[prefix]["layer"] = layerIndex;
+		// handle any regular layers in the group
+		for (j = 0; j < group.artLayers.length; j++) {
+			layerName = group.artLayers[j].name;
+			result = reTextLayer.exec(layerName);
+			if (result !== null) {
+				log("Layer: TEXT");
+				regionBounds = getLayerBounds(group.artLayers[j]);
+				json[prefix]["text"] = {
 					"x": regionBounds[0] - offset[0],
 					"y": regionBounds[1] - offset[1],
 					"width": regionBounds[2] - regionBounds[0],
 					"height": regionBounds[3] - regionBounds[1]
 				};
+				continue;
 			}
-			continue;
-		}
-		
-		// parse the top level group names
-		// TODO switch undefined to array length
-		result = reGroupName.exec(group.name);
-		if (result[1] !== undefined) {
-			layerIndex = parseInt(result[0], 10);
-			if (result[2] !== undefined) {
-				prefix = result[2];
-				hasPrefix = true;
+			result = reDefaultLayer.exec(layerName);
+			if (result !== null) {
+				log("Layer: IMAGE");
+				addImage(group.artLayers[j], prefix, json[prefix], outputPath, offset);
+				continue;
 			}
-		}
-		log("Group: " + group.name + ", " + prefix + ", " + layerIndex);
-		
-		// handle any regular layers in the group
-		for (j = 0; j < group.artLayers.length; j++) {
-			if (hasPrefix) {
-				addVariant(group.artLayers[j], prefix, json, outputPath, offset, layerIndex);
-			} else {
-				addImage(group.artLayers[j], prefix, json, outputPath, offset, layerIndex);
+			result = reClipLayer.exec(layerName);
+			if (result !== null && result.length >= 2) {
+				log("Layer: CLIP " + result[1]);
+				json[prefix]["clipRegion"] = {
+					"type": result[1],
+					"x": regionBounds[0] - offset[0],
+					"y": regionBounds[1] - offset[1],
+					"width": regionBounds[2] - regionBounds[0],
+					"height": regionBounds[3] - regionBounds[1]
+				};
+				continue;
 			}
-		}
-		
-		// handle any layer groups
-		for (j = 0; j < group.layerSets.length; j++) {
-			var prefix2 = group.layerSets[j].name;
-			for (k = 0; k < group.layerSets[j].artLayers.length; k++) {
-				addVariant(group.layerSets[j].artLayers[k], prefix2, json, outputPath, offset, i);
+			result = rePathLayer.exec(layerName);
+			if (result !== null && result.length >= 2) {
+				log("Layer: PATH " + result[1]);
+				addPath(result[1], json[prefix], offset);
+				continue;
 			}
+			// otherwise it must be a multi image component
+			log("Layer: IMAGE " + layerName);
+			addMulti(group.artLayers[j], prefix, json[prefix], outputPath, offset);
 		}
+
+		// // handle any layer groups
+		// for (j = 0; j < group.layerSets.length; j++) {
+		// 	var prefix2 = group.layerSets[j].name;
+		// 	for (k = 0; k < group.layerSets[j].artLayers.length; k++) {
+		// 		addVariant(group.layerSets[j].artLayers[k], prefix2, json, outputPath, offset, i);
+		// 	}
+		// }
 	}
-	
+
 	var text = JSON.stringify(json);
 	writeTextFile(jsonFile, text);
 	alert("Decomposition Complete.");
@@ -174,7 +222,7 @@ function addVariant(layer, prefix, json, out, offset, index) {
 		app.activeDocument = doc;
 		var trimLayer = layer.duplicate(tempDoc, ElementPlacement.PLACEATBEGINNING);
 		app.activeDocument = tempDoc;
-		tempDoc.trim(TrimType.TRANSPARENT);	
+		tempDoc.trim(TrimType.TRANSPARENT);
 		tempDoc.exportDocument(file, ExportType.SAVEFORWEB, pngOpts);
 	}
 	var bounds = getLayerBounds(layer);
@@ -190,7 +238,7 @@ function addVariant(layer, prefix, json, out, offset, index) {
 			"variants": {}
 		};
 	}
-	json[prefix]["variants"][layer.name.toString()] = imageName; 
+	json[prefix]["variants"][layer.name.toString()] = imageName;
 
 	if (!jsonOnly) {
 		app.activeDocument = doc;
@@ -198,31 +246,63 @@ function addVariant(layer, prefix, json, out, offset, index) {
 	}
 }
 
-function addImage(layer, prefix, json, out, offset, index) {
-		var imageName = prefix + layer.name + fileExt;
+function addImage(layer, prefix, json, out, offset) {
+		var imageName = prefix + fileExt;
 		var file = new File(out + "/" + imageName);
-			
-		log("handle: " + layer + ", " + prefix + ", " + json + ", " + out + ", " + offset + ", " + index)
+
+		log("handle: " + layer + ", " + prefix + ", " + out + ", " + offset)
 		if (!jsonOnly) {
-			var tempDoc = app.documents.add(doc.width, doc.height, doc.resolution, "trim", NewDocumentMode.RGB, DocumentFill.TRANSPARENT);
+			var tempDoc = app.documents.add(doc.width, doc.height, doc.resolution,
+				"trim", NewDocumentMode.RGB, DocumentFill.TRANSPARENT);
 			app.activeDocument = doc;
 			var trimLayer = layer.duplicate(tempDoc, ElementPlacement.PLACEATBEGINNING);
 			app.activeDocument = tempDoc;
 			tempDoc.trim(TrimType.TRANSPARENT);
 			tempDoc.exportDocument(file, ExportType.SAVEFORWEB, pngOpts);
 		}
-		
+
+		json["image"] = {};
 		var bounds = getLayerBounds(layer);
-		json[layer.name.toString()] = {
-			"index": index,
-			"x": bounds[0] - offset[0],
-			"y": bounds[1] - offset[1],
-			"width": bounds[2] - bounds[0],
-			"height": bounds[3] - bounds[1],
-			"image": imageName,
-			"variants": null
-		};
-		
+		json["image"]["x"] = bounds[0] - offset[0];
+		json["image"]["y"] = bounds[1] - offset[1];
+		json["image"]["width"] = bounds[2] - bounds[0];
+		json["image"]["height"] = bounds[3] - bounds[1];
+		json["image"]["assets"] = { "default": imageName };
+
+		if (!jsonOnly) {
+			app.activeDocument = doc;
+			tempDoc.close(SaveOptions.DONOTSAVECHANGES);
+		}
+}
+
+function addMulti(layer, prefix, json, out, offset) {
+		var imageName = prefix + "_" + layer.name + fileExt;
+		var file = new File(out + "/" + imageName);
+
+		log("handle: " + layer + ", " + prefix + ", " + out + ", " + offset)
+		if (!jsonOnly) {
+			var tempDoc = app.documents.add(doc.width, doc.height, doc.resolution,
+				"trim", NewDocumentMode.RGB, DocumentFill.TRANSPARENT);
+			app.activeDocument = doc;
+			var trimLayer = layer.duplicate(tempDoc, ElementPlacement.PLACEATBEGINNING);
+			app.activeDocument = tempDoc;
+			tempDoc.trim(TrimType.TRANSPARENT);
+			tempDoc.exportDocument(file, ExportType.SAVEFORWEB, pngOpts);
+		}
+
+		// all images should be the same size, so record the first one's dimensions
+		if (json["image"] === undefined) {
+			json["image"] = {};
+			var bounds = getLayerBounds(layer);
+			json["image"]["x"] = bounds[0] - offset[0];
+			json["image"]["y"] = bounds[1] - offset[1];
+			json["image"]["width"] = bounds[2] - bounds[0];
+			json["image"]["height"] = bounds[3] - bounds[1];
+			json["image"]["assets"] = {};
+		}
+		// record the names and filenames of the images in dict
+		json["image"]["assets"][layer.name] = imageName;
+
 		if (!jsonOnly) {
 			app.activeDocument = doc;
 			tempDoc.close(SaveOptions.DONOTSAVECHANGES);
@@ -255,7 +335,7 @@ function getReferenceLayer() {
 	}
 	return bounds;
 }
-	
+
 function writeTextFile(afilename, output) {
   var txtFile = new File(afilename);
   txtFile.open("w");
@@ -270,12 +350,15 @@ function log(message) {
 		resetLog = false;
 	} else {
 		txtFile.open("a");
-	}  
+	}
   txtFile.writeln(message);
   txtFile.close();
 }
 
-// Include https://github.com/douglascrockford/JSON-js to enable JSON.stringify
+
+// -----------------------------------------------------------------------------
+//	Include json2.js (https://github.com/douglascrockford/JSON-js)
+//		Enables JSON.stringify
 // -----------------------------------------------------------------------------
 //  json2.js
 //  2016-10-28
