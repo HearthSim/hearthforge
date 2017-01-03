@@ -1,17 +1,13 @@
-// Photoshop JSX
+// -----------------------------------------------------------------------------
+//	HearthForge - Photoshop JSX Script
+//
+//	Decomposes Hearthstone card layouts from photoshop into component images
+//	and their	coordinates as json.
+// -----------------------------------------------------------------------------
 
 app.preferences.rulerUnits = Units.PIXELS;
 
-var referenceLayer = "reference",
-	outputDir = "extract",
-	fileExt = ".png",
-	padding = 20,
-	watermarkRaceOffset = -16,
-	doc = app.activeDocument,
-	resetLog = true,
-	jsonOnly = false,
-	jsonFile, outputPath, baseName;
-
+var doc = app.activeDocument;
 var pngOpts = new ExportOptionsSaveForWeb();
 pngOpts.PNG8 = false;
 pngOpts.transparency = true;
@@ -19,6 +15,130 @@ pngOpts.interlaced = false;
 pngOpts.quality = 100;
 pngOpts.includeProfile = false;
 pngOpts.format = SaveDocumentType.PNG;
+
+var	referenceLayer = "reference",
+	outputDir = "extract",
+	fileExt = ".png",
+	logFile = "decompose.log",
+	padding = 20,
+	jsonOnly = false,
+	logger = logger(),
+	jsonFile, outputPath, baseName;
+
+function main() {
+	var reGroupName = /(\d+)\s*(\w+)?/,
+		reClipName = /clip\s(\w+)/,
+		reTextLayer = /^text/,
+		reDefaultLayer = /^default/,
+		reClipLayer = /^clip\s+(\w+)/,
+		rePathLayer = /^path\s+(\w+)/,
+		dims, offset, json, group, layer, prefix, hasPrefix, result, layerIndex,
+		cardGroup, i, j, k, l, regionLayer, regionBounds, clipType, point,
+		pathItems, layerName, basePath, outFolder;
+
+	baseName = doc.name.substring(0, doc.name.length - 4);
+	basePath = app.activeDocument.path + "/" + outputDir;
+	mkdir(basePath);
+	jsonFile = basePath + "/" + baseName + ".json";
+	json = {};
+
+	// top level groups - card types (separate premium and all variants)
+	for (l = 0; l < doc.layerSets.length; l++) {
+		cardGroup = doc.layerSets[l];
+		outputPath = basePath + "/" + cardGroup.name
+		mkdir(outputPath);
+		// get the reference layer (a full card image)
+		// to calc the crop dimensions to work from
+		dims = getReferenceLayer(cardGroup.artLayers);
+		addPadding(dims, padding);
+		// top left coord is the offset to adjust for
+		offset = [dims[0], dims[1]];
+		// add new json object
+		json[cardGroup.name] = {
+			"width": dims[2] - dims[0],
+			"height": dims[3] - dims[1]
+		};
+		// handle components
+		for (i = 0; i < cardGroup.layerSets.length; i++) {
+			prefix = "", hasPrefix = false, layerIndex = 0;
+			group = cardGroup.layerSets[i];
+			// ignore certain groups
+			if (group.name === "IGNORE" || group.name === "BACKGROUND")
+				continue;
+			// parse the group names
+			result = reGroupName.exec(group.name);
+			if (result !== null) {
+				if (result.length >= 1) {
+					layerIndex = parseInt(result[0], 10);
+					if (result.length >= 2) {
+						prefix = result[2];
+						hasPrefix = true;
+					}
+				}
+			}
+			logger.log("Group: " + group.name + " (" + prefix + ", " + layerIndex + ")");
+			// ignore empty layers
+			if (group.artLayers.length > 0) {
+				json[cardGroup.name][prefix] = {};
+				json[cardGroup.name][prefix]["layer"] = layerIndex;
+			}
+			// handle any regular layers in the group
+			for (j = 0; j < group.artLayers.length; j++) {
+				layerName = group.artLayers[j].name;
+				// check if its a text layer
+				result = reTextLayer.exec(layerName);
+				if (result !== null) {
+					logger.log("Layer: TEXT");
+					regionBounds = getLayerBounds(group.artLayers[j]);
+					json[cardGroup.name][prefix]["text"] = {
+						"x": regionBounds[0] - offset[0],
+						"y": regionBounds[1] - offset[1],
+						"width": regionBounds[2] - regionBounds[0],
+						"height": regionBounds[3] - regionBounds[1]
+					};
+					continue;
+				}
+				// check if its an default image layer
+				result = reDefaultLayer.exec(layerName);
+				if (result !== null) {
+					logger.log("Layer: IMAGE");
+					addImage(group.artLayers[j], prefix, json[cardGroup.name][prefix], outputPath, offset, cardGroup.name);
+					continue;
+				}
+				// check if its a clip layer
+				result = reClipLayer.exec(layerName);
+				if (result !== null && result.length >= 2) {
+					logger.log("Layer: CLIP " + result[1]);
+					regionBounds = getLayerBounds(group.artLayers[j]);
+					json[cardGroup.name][prefix]["clipRegion"] = {
+						"type": result[1],
+						"x": regionBounds[0] - offset[0],
+						"y": regionBounds[1] - offset[1],
+						"width": regionBounds[2] - regionBounds[0],
+						"height": regionBounds[3] - regionBounds[1]
+					};
+					continue;
+				}
+				// check if its a path layer
+				result = rePathLayer.exec(layerName);
+				if (result !== null && result.length >= 2) {
+					logger.log("Layer: PATH " + result[1]);
+					addPath(result[1], json[cardGroup.name][prefix], offset);
+					continue;
+				}
+				// otherwise it must be a multi image component
+				logger.log("Layer: IMAGE " + layerName);
+				addMulti(group.artLayers[j], prefix, json[cardGroup.name][prefix], outputPath, offset, cardGroup.name);
+			}
+		}
+	}
+
+	logger.log("Creating json");
+	var text = JSON.stringify(json);
+	writeTextToFile(jsonFile, text);
+	alert("Decomposition Complete.");
+	logger.close();
+}
 
 function addPath(pathName, json, offset) {
 	var pathItems, i, point, numPoints;
@@ -30,7 +150,7 @@ function addPath(pathName, json, offset) {
 				numPoints = pathItems[i].subPathItems[j].pathPoints.length
 				// want it to be a basic curve, not a full path
 				if (numPoints != 2) {
-					log("title path not a simple curve");
+					logger.log("title path not a simple curve");
 					break;
 				}
 				json["textCurve"] = {};
@@ -57,200 +177,11 @@ function addPath(pathName, json, offset) {
 	}
 }
 
-// function getTextRegion() {
-// 	// deal with text group separately
-// 	if (group.name == "REGIONS") {
-// 		for (j = 0; j < group.artLayers.length; j++) {
-// 			regionLayer = group.artLayers[j];
-// 			regionBounds = getLayerBounds(regionLayer);
-//
-// 			result = reClipName.exec(regionLayer.name);
-// 			if (result !== null && result.length > 1) {
-// 				clipType = result[1];
-// 				json["portraitClip"] = {
-// 					"type": clipType,
-// 					"x": regionBounds[0] - offset[0],
-// 					"y": regionBounds[1] - offset[1],
-// 					"width": regionBounds[2] - regionBounds[0],
-// 					"height": regionBounds[3] - regionBounds[1]
-// 				};
-// 				continue;
-// 			}
-//
-// 			if (regionLayer.name == watermarkName) {
-// 				json[watermarkName] = {
-// 					"x": regionBounds[0] - offset[0],
-// 					"y": regionBounds[1] - offset[1],
-// 					"width": regionBounds[2] - regionBounds[0],
-// 					"height": regionBounds[3] - regionBounds[1],
-// 					"offset": watermarkRaceOffset
-// 				};
-// 				continue;
-// 			}
-//
-// 			json["text"][regionLayer.name] = {
-// 				"x": regionBounds[0] - offset[0],
-// 				"y": regionBounds[1] - offset[1],
-// 				"width": regionBounds[2] - regionBounds[0],
-// 				"height": regionBounds[3] - regionBounds[1]
-// 			};
-// 		}
-// 		continue;
-// 	}
-// }
-
-function main() {
-	var reGroupName = /(\d+)\s*(\w+)?/,
-		reClipName = /clip\s(\w+)/,
-		reTextLayer = /^text/,
-		reDefaultLayer = /^default/,
-		reClipLayer = /^clip\s+(\w+)/,
-		rePathLayer = /^path\s+(\w+)/,
-		dims, offset, json, group, layer, prefix, hasPrefix, result, layerIndex,
-		i, j, k, regionLayer, regionBounds, clipType, point, pathItems, layerName;
-
-	baseName = doc.name.substring(0, doc.name.length - 4);
-	outputPath = app.activeDocument.path + "/" + outputDir;
-	jsonFile = outputPath + "/" + baseName + ".json";
-
-	// get the reference layer (a full card image)
-	// to calc the crop dimensions to work from
-	dims = getReferenceLayer();
-	addPadding(dims, padding);
-	// top left coord is the offset to adjust for
-	offset = [dims[0], dims[1]];
-
-	json = {
-		"width": dims[2] - dims[0],
-		"height": dims[3] - dims[1]
-	};
-
-	// getPath()
-
-	for (i = 0; i < doc.layerSets.length; i++) {
-		prefix = "", hasPrefix = false, layerIndex = 0;
-		group = doc.layerSets[i];
-		if (group.name === "IGNORE" || group.name === "BACKGROUND")
-			continue;
-
-		// getTextRegion()
-
-		// parse the group names
-		result = reGroupName.exec(group.name);
-		if (result !== null) {
-			if (result.length >= 1) {
-				layerIndex = parseInt(result[0], 10);
-				if (result.length >= 2) {
-					prefix = result[2];
-					hasPrefix = true;
-				}
-			}
-		}
-		log("Group: " + group.name + " = " + prefix + ", " + layerIndex);
-
-		json[prefix] = {};
-		json[prefix]["layer"] = layerIndex;
-		// handle any regular layers in the group
-		for (j = 0; j < group.artLayers.length; j++) {
-			layerName = group.artLayers[j].name;
-			result = reTextLayer.exec(layerName);
-			if (result !== null) {
-				log("Layer: TEXT");
-				regionBounds = getLayerBounds(group.artLayers[j]);
-				json[prefix]["text"] = {
-					"x": regionBounds[0] - offset[0],
-					"y": regionBounds[1] - offset[1],
-					"width": regionBounds[2] - regionBounds[0],
-					"height": regionBounds[3] - regionBounds[1]
-				};
-				continue;
-			}
-			result = reDefaultLayer.exec(layerName);
-			if (result !== null) {
-				log("Layer: IMAGE");
-				addImage(group.artLayers[j], prefix, json[prefix], outputPath, offset);
-				continue;
-			}
-			result = reClipLayer.exec(layerName);
-			if (result !== null && result.length >= 2) {
-				log("Layer: CLIP " + result[1]);
-				json[prefix]["clipRegion"] = {
-					"type": result[1],
-					"x": regionBounds[0] - offset[0],
-					"y": regionBounds[1] - offset[1],
-					"width": regionBounds[2] - regionBounds[0],
-					"height": regionBounds[3] - regionBounds[1]
-				};
-				continue;
-			}
-			result = rePathLayer.exec(layerName);
-			if (result !== null && result.length >= 2) {
-				log("Layer: PATH " + result[1]);
-				addPath(result[1], json[prefix], offset);
-				continue;
-			}
-			// otherwise it must be a multi image component
-			log("Layer: IMAGE " + layerName);
-			addMulti(group.artLayers[j], prefix, json[prefix], outputPath, offset);
-		}
-
-		// // handle any layer groups
-		// for (j = 0; j < group.layerSets.length; j++) {
-		// 	var prefix2 = group.layerSets[j].name;
-		// 	for (k = 0; k < group.layerSets[j].artLayers.length; k++) {
-		// 		addVariant(group.layerSets[j].artLayers[k], prefix2, json, outputPath, offset, i);
-		// 	}
-		// }
-	}
-
-	var text = JSON.stringify(json);
-	writeTextFile(jsonFile, text);
-	alert("Decomposition Complete.");
-}
-
-function addVariant(layer, prefix, json, out, offset, index) {
-	var imageName;
-	log("handle: " + layer + ", " + prefix + ", " + json + ", " + out + ", " + offset + ", " + index)
-	if (prefix.length > 0) {
-		imageName = prefix + "-" + layer.name + fileExt;
-	}	else {
-		imageName = layer.name + fileExt;
-	}
-	var file = new File(out + "/" + imageName);
-	if (!jsonOnly) {
-		var tempDoc = app.documents.add(doc.width, doc.height, doc.resolution, "trim", NewDocumentMode.RGB, DocumentFill.TRANSPARENT);
-		app.activeDocument = doc;
-		var trimLayer = layer.duplicate(tempDoc, ElementPlacement.PLACEATBEGINNING);
-		app.activeDocument = tempDoc;
-		tempDoc.trim(TrimType.TRANSPARENT);
-		tempDoc.exportDocument(file, ExportType.SAVEFORWEB, pngOpts);
-	}
-	var bounds = getLayerBounds(layer);
-	if (json[prefix] === undefined) {
-		// create it
-		json[prefix.toString()] = {
-			"index": index,
-			"x": bounds[0] - offset[0],
-			"y": bounds[1] - offset[1],
-			"width": bounds[2] - bounds[0],
-			"height": bounds[3] - bounds[1],
-			"image": null,
-			"variants": {}
-		};
-	}
-	json[prefix]["variants"][layer.name.toString()] = imageName;
-
-	if (!jsonOnly) {
-		app.activeDocument = doc;
-		tempDoc.close(SaveOptions.DONOTSAVECHANGES);
-	}
-}
-
-function addImage(layer, prefix, json, out, offset) {
+function addImage(layer, prefix, json, out, offset, typeName) {
 		var imageName = prefix + fileExt;
 		var file = new File(out + "/" + imageName);
 
-		log("handle: " + layer + ", " + prefix + ", " + out + ", " + offset)
+		logger.log("handle: " + layer + ", " + prefix + ", " + out + ", " + offset)
 		if (!jsonOnly) {
 			var tempDoc = app.documents.add(doc.width, doc.height, doc.resolution,
 				"trim", NewDocumentMode.RGB, DocumentFill.TRANSPARENT);
@@ -267,7 +198,7 @@ function addImage(layer, prefix, json, out, offset) {
 		json["image"]["y"] = bounds[1] - offset[1];
 		json["image"]["width"] = bounds[2] - bounds[0];
 		json["image"]["height"] = bounds[3] - bounds[1];
-		json["image"]["assets"] = { "default": imageName };
+		json["image"]["assets"] = { "default": typeName + "/" + imageName };
 
 		if (!jsonOnly) {
 			app.activeDocument = doc;
@@ -275,11 +206,11 @@ function addImage(layer, prefix, json, out, offset) {
 		}
 }
 
-function addMulti(layer, prefix, json, out, offset) {
+function addMulti(layer, prefix, json, out, offset, typeName) {
 		var imageName = prefix + "_" + layer.name + fileExt;
 		var file = new File(out + "/" + imageName);
 
-		log("handle: " + layer + ", " + prefix + ", " + out + ", " + offset)
+		logger.log("handle: " + layer + ", " + prefix + ", " + out + ", " + offset)
 		if (!jsonOnly) {
 			var tempDoc = app.documents.add(doc.width, doc.height, doc.resolution,
 				"trim", NewDocumentMode.RGB, DocumentFill.TRANSPARENT);
@@ -301,7 +232,7 @@ function addMulti(layer, prefix, json, out, offset) {
 			json["image"]["assets"] = {};
 		}
 		// record the names and filenames of the images in dict
-		json["image"]["assets"][layer.name] = imageName;
+		json["image"]["assets"][layer.name] = typeName + "/" + imageName;
 
 		if (!jsonOnly) {
 			app.activeDocument = doc;
@@ -326,33 +257,45 @@ function getLayerBounds(layer) {
 	];
 }
 
-function getReferenceLayer() {
-	var bounds = [];
-	for (var i = 0; i < doc.artLayers.length; i++) {
-		if (doc.artLayers[i].name == referenceLayer) {
-			bounds = getLayerBounds(doc.artLayers[i]);
+function getReferenceLayer(layers) {
+	var i, bounds = [];
+	for (i = 0; i < layers.length; i++) {
+		if (layers[i].name == referenceLayer) {
+			bounds = getLayerBounds(layers[i]);
 		}
 	}
 	return bounds;
 }
 
-function writeTextFile(afilename, output) {
-  var txtFile = new File(afilename);
-  txtFile.open("w");
-  txtFile.writeln(output);
-  txtFile.close();
+// write text to file
+function writeTextToFile(filename, text) {
+  var f = new File(filename);
+  f.open("w");
+  f.writeln(text);
+  f.close();
 }
 
-function log(message) {
-  var txtFile = new File("decompose.log");
-	if (resetLog) {
-		txtFile.open("w");
-		resetLog = false;
-	} else {
-		txtFile.open("a");
+// make a directory if doesn't exist
+function mkdir(dir) {
+	var folder = Folder(dir);
+	if (!folder.exists) {
+		logger.log("Creating folder: " + dir)
+		folder.create();
 	}
-  txtFile.writeln(message);
-  txtFile.close();
+}
+
+// create a logger
+function logger() {
+  var file = new File(logFile);
+	file.open("w");
+	return {
+		log: function(message) {
+			file.writeln(message);
+		},
+		close: function() {
+			file.close();
+		}
+	};
 }
 
 
