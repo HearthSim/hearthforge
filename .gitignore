@@ -1,1 +1,3 @@
-/output
+/source/*
+!/source/decompose.jsx
+!/source/*json

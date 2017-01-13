@@ -1,0 +1,31 @@
+{
+	"set_watermark": {
+		"setIcons": "sets",
+		"raceOffset": -16,
+		"blendIntensity": 2,
+		"tint": {
+			"minion": {
+				"r": 0.57,
+				"g": 0.56,
+				"b": 0.55,
+				"a": 0.78
+			},
+			"spell": {
+				"r": 0.57,
+				"g": 0.56,
+				"b": 0.55,
+				"a": 0.78
+			},
+			"weapon": {
+				"r": 0.67,
+				"g": 0.66,
+				"b": 0.64,
+				"a": 0.78
+			}
+		},
+		"layers": {
+			"base": "image",
+			"set": "region"
+		}
+	}
+}
