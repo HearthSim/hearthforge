@@ -51,22 +51,20 @@
 			// set the name an output dir for this card type
 			cardGroup = doc.layerSets[l];
 			// check config if this group is to be processed
-			if (!contains(config.cardTypes, cardGroup.name)) {
+			if (isGroupToBeSkipped(config.cardTypes, cardGroup.name)) {
 				continue;
 			}
 			// create output dir
 			outputPath = basePath + "/" +  cardGroup.name
 			mkdir(outputPath);
-			// get the reference layer (a full card image)
-			// to calc the crop dimensions to work from
-			dims = getReferenceLayer(cardGroup.artLayers);
-			addPadding(dims, config.padding);
-			// top left coord is the offset to adjust for
-			offset = [dims[0], dims[1]];
-			// add new json object
+			// use the cardCrop in the config set the required card dimensions,
+			// based on the original 1024x1024 assets
+			// (x, y) is the top left coord and is the offset to adjust for
+			offset = [config.cardCrop.x, config.cardCrop.y];
+			// add new json object, with (w, h) to use
 			json[cardGroup.name] = {
-				"width": dims[2] - dims[0],
-				"height": dims[3] - dims[1]
+				"width": config.cardCrop.width,
+				"height": config.cardCrop.height
 			};
 			// handle components, defined as groups
 			for (i = 0; i < cardGroup.layerSets.length; i++) {
@@ -289,14 +287,7 @@
 			}
 	}
 
-	function addPadding(arr, pad) {
-		// TODO need to check there is enough space
-		arr[0] -= pad;
-		arr[1] -= pad;
-		arr[2] += pad;
-		arr[3] += pad;
-	}
-
+	// get the actual bounds of the contents of the layer (transparency ignored)
 	function getLayerBounds(layer) {
 		return [
 			parseFloat(layer.bounds[0]),
@@ -304,16 +295,6 @@
 			parseFloat(layer.bounds[2]),
 			parseFloat(layer.bounds[3])
 		];
-	}
-
-	function getReferenceLayer(layers) {
-		var i, bounds = [];
-		for (i = 0; i < layers.length; i++) {
-			if (layers[i].name == referenceLayer) {
-				bounds = getLayerBounds(layers[i]);
-			}
-		}
-		return bounds;
 	}
 
 	// write text to a file
@@ -347,6 +328,7 @@
 		};
 	}
 
+	// load a config file
 	function loadConfig(filename) {
 		var file = new File(filename);
 		file.open("r");
@@ -355,13 +337,20 @@
 		return JSON.parse(data);
 	}
 
-	function contains(array, element) {
+	// returns whether an element is not in an array
+	function isGroupToBeSkipped(list, name) {
+		// don't skip if list is empty
+		if (list === undefined || list.length <= 0) {
+			return false;
+		}
+		// don't skip if the name is in the list
 		for (var i = 0; i < array.length; i++) {
 			if (array[i] == element) {
-				return true;
+				return false;
 			}
 		}
-		return false;
+		// otherwise do skip
+		return true;
 	}
 
 	main();
