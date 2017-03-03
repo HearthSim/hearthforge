@@ -1,31 +1,78 @@
 {
-	"set_watermark": {
-		"setIcons": "sets",
-		"raceOffset": -16,
-		"blendIntensity": 2,
-		"tint": {
-			"minion": {
-				"r": 0.57,
-				"g": 0.56,
-				"b": 0.55,
-				"a": 0.78
+	"custom": {
+		"set_watermark": {
+			"setIcons": "sets",
+			"raceOffset": -16,
+			"blendIntensity": 2,
+			"tint": {
+				"minion": {
+					"r": 0.57,
+					"g": 0.56,
+					"b": 0.55,
+					"a": 0.78
+				},
+				"spell": {
+					"r": 0.57,
+					"g": 0.56,
+					"b": 0.55,
+					"a": 0.78
+				},
+				"weapon": {
+					"r": 0.67,
+					"g": 0.66,
+					"b": 0.64,
+					"a": 0.78
+				}
 			},
-			"spell": {
-				"r": 0.57,
-				"g": 0.56,
-				"b": 0.55,
-				"a": 0.78
+			"layers": {
+				"base": "image",
+				"set": "region"
+			}
+		}
+	},
+	"text": {
+		"default": {
+			"cost": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 137
 			},
-			"weapon": {
-				"r": 0.67,
-				"g": 0.66,
-				"b": 0.64,
-				"a": 0.78
+			"health": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 126
+			},
+			"attack": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 126
+			},
+			"name": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 34
+			},
+			"race": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 40
+			},
+			"description": {
+				"type": "textBlock",
+				"color": "#000000",
+				"family": "Franklin Gothic FS",
+				"size": 38
 			}
 		},
-		"layers": {
-			"base": "image",
-			"set": "region"
+		"weapon": {
+			"description": {
+				"color": "#FFFFFF"
+			}
 		}
 	}
 }

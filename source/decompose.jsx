@@ -50,10 +50,6 @@
 		for (l = 0; l < doc.layerSets.length; l++) {
 			// set the name an output dir for this card type
 			cardGroup = doc.layerSets[l];
-			// check config if this group is to be processed
-			if (isGroupToBeSkipped(config.cardTypes, cardGroup.name)) {
-				continue;
-			}
 			// create output dir
 			outputPath = basePath + "/" +  cardGroup.name
 			mkdir(outputPath);
@@ -91,6 +87,8 @@
 				if (group.artLayers.length > 0) {
 					json[cardGroup.name][prefix] = {};
 					json[cardGroup.name][prefix]["layer"] = layerIndex;
+					// add the font obj if it exists
+					addFont(baseName, cardGroup.name, prefix, json[cardGroup.name][prefix]);
 				}
 				// handle any regular layers in the group
 				for (j = 0; j < group.artLayers.length; j++) {
@@ -163,15 +161,15 @@
 		file.close();
 		var json = JSON.parse(data);
 
-		var layers = json[name]["layers"];
+		var layers = json["custom"][name]["layers"];
 		for (var i = 0; i < group.length; i++) {
 			if (layers[group[i].name] == "image") {
 				logger.log("custom: adding image");
-				addImage(group[i], "custom_" + group[i].name, json[name], out, offset, type);
+				addImage(group[i], "custom_" + group[i].name, json["custom"][name], out, offset, type);
 			} else if (layers[group[i].name] == "region") {
 				logger.log("custom: adding region");
 				var regionBounds = getLayerBounds(group[i]);
-				json[name]["region"] = {
+				json["custom"][name]["region"] = {
 					"x": regionBounds[0] - offset[0],
 					"y": regionBounds[1] - offset[1],
 					"width": regionBounds[2] - regionBounds[0],
@@ -180,11 +178,39 @@
 			}
 		}
 
-		json[name]["name"] = name;
-		json[name]["layers"] = undefined;
+		json["custom"][name]["name"] = name;
+		json["custom"][name]["layers"] = undefined;
 		parentJson[type][prefix] = {};
 		parentJson[type][prefix]["layer"] = index;
-		parentJson[type][prefix]["custom"] = json[name];
+		parentJson[type][prefix]["custom"] = json["custom"][name];
+	}
+
+	function addFont(base, cardType, component, json) {
+		logger.log("Font: " + cardType + ", " + component);
+
+		var file = File(base + ".json");
+		if (!file.exists) {
+			logger.log("File not found: " + base + ".json");
+		}
+
+		file.open("r");
+		var data = file.read();
+		file.close();
+		var fontData = JSON.parse(data);
+		fontData = fontData["text"];
+
+		if (fontData["default"][component] !== undefined) {
+			var font = fontData["default"][component];
+			if (fontData[cardType] !== undefined && fontData[cardType][component] !== undefined) {
+				var obj = fontData[cardType][component];
+				for (var key in obj) {
+					if (obj.hasOwnProperty(key)) {
+						font[key] = obj[key];
+					}
+				}
+			}
+			json["font"] = font;
+		}
 	}
 
 	function addPath(pathName, json, offset) {
@@ -335,22 +361,6 @@
 		var data = file.read();
 		file.close();
 		return JSON.parse(data);
-	}
-
-	// returns whether an element is not in an array
-	function isGroupToBeSkipped(list, name) {
-		// don't skip if list is empty
-		if (list === undefined || list.length <= 0) {
-			return false;
-		}
-		// don't skip if the name is in the list
-		for (var i = 0; i < array.length; i++) {
-			if (array[i] == element) {
-				return false;
-			}
-		}
-		// otherwise do skip
-		return true;
 	}
 
 	main();
