@@ -43,8 +43,8 @@
 		baseName = doc.name.substring(0, doc.name.length - 4);
 		basePath = app.activeDocument.path + "/" + baseName;
 		mkdir(basePath);
-		jsonFile = basePath + "/" + baseName + ".json";
-		json = { "style": baseName };
+		jsonFile = basePath + "/data.json";
+		json = { "name": baseName };
 
 		// top level groups - card types (separate premium and all variants)
 		for (l = 0; l < doc.layerSets.length; l++) {

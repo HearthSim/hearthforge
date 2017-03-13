@@ -1,5 +1,5 @@
 /source/*
 !/source/decompose.jsx
-!/source/decompose.cfg
+!/source/decompose_example.cfg
 !/source/json2.js
 !/source/*json
