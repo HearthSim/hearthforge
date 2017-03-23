@@ -37,7 +37,7 @@
 		var rePathLayer = /^path\s+(\w+)/;
 
 		var dims, offset, json, group, layer, prefix, result, layerIndex,
-			cardGroup, i, j, k, l, regionLayer, regionBounds, clipType, point,
+			cardGroup, i, j, k, l, q, regionLayer, regionBounds, clipType, point,
 			pathItems, layerName, basePath, outFolder;
 
 		baseName = doc.name.substring(0, doc.name.length - 4);
@@ -47,9 +47,16 @@
 		json = { "name": baseName };
 
 		// top level groups - card types (separate premium and all variants)
+		excludeJump:
 		for (l = 0; l < doc.layerSets.length; l++) {
 			// set the name an output dir for this card type
 			cardGroup = doc.layerSets[l];
+			// skip excluded types
+			for (q = 0; q < config.exclude.length; q++) {
+				if (config.exclude[q] == cardGroup.name) {
+					continue excludeJump;
+				}
+			}
 			// create output dir
 			outputPath = basePath + "/" +  cardGroup.name
 			mkdir(outputPath);

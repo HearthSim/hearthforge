@@ -73,6 +73,11 @@
 			"description": {
 				"color": "#FFFFFF"
 			}
+		},
+		"minion_premium": {
+			"description": {
+				"color": "#FFFFFF"
+			}
 		}
 	}
 }
