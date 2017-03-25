@@ -78,6 +78,16 @@
 			"description": {
 				"color": "#FFFFFF"
 			}
+		},
+		"spell_premium": {
+			"description": {
+				"color": "#FFFFFF"
+			}
+		},
+		"weapon_premium": {
+			"description": {
+				"color": "#FFFFFF"
+			}
 		}
 	}
 }
