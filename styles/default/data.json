@@ -1,1 +1,1495 @@
-{"name":"default","minion":{"width":670,"height":1000,"elite":{"layer":6,"image":{"x":188,"y":52,"width":436,"height":325,"assets":{"default":"minion/elite.png"}}},"health":{"layer":5,"font":{"color":"#FFFFFF","outline":"#000000","family":"Belwe Bd BT","size":126},"text":{"x":506,"y":777,"width":96,"height":96},"image":{"x":504,"y":728,"width":109,"height":164,"assets":{"default":"minion/health.png"}}},"cost":{"layer":5,"font":{"color":"#FFFFFF","outline":"#000000","family":"Belwe Bd BT","size":137},"text":{"x":65,"y":124,"width":102,"height":104},"image":{"x":47,"y":105,"width":140,"height":144,"assets":{"default":"minion/cost.png"}}},"attack":{"layer":5,"font":{"color":"#FFFFFF","outline":"#000000","family":"Belwe Bd BT","size":126},"text":{"x":77,"y":776,"width":96,"height":96},"image":{"x":36,"y":721,"width":154,"height":173,"assets":{"default":"minion/attack.png"}}},"name":{"layer":5,"font":{"color":"#FFFFFF","outline":"#000000","family":"Belwe Bd BT","size":34},"textCurve":{"start":{"x":110,"y":535},"c1":{"x":214,"y":561},"end":{"x":557,"y":528},"c2":{"x":407,"y":456}},"image":{"x":96,"y":469,"width":485,"height":113,"assets":{"default":"minion/name.png"}}},"description":{"layer":5,"font":{"type":"textBlock","color":"#000000","family":"Franklin Gothic FS","size":38},"text":{"x":143,"y":627,"width":388,"height":168}},"multiClass":{"layer":4,"image":{"x":50,"y":119,"width":125,"height":269,"assets":{"kabal":"minion/multiClass_kabal.png","grimy_goons":"minion/multiClass_grimy_goons.png","jade_lotus":"minion/multiClass_jade_lotus.png"}}},"race":{"layer":4,"font":{"color":"#FFFFFF","outline":"#000000","family":"Belwe Bd BT","size":40},"text":{"x":217,"y":809,"width":240,"height":40},"image":{"x":129,"y":791,"width":408,"height":69,"assets":{"default":"minion/race.png"}}},"rarity":{"layer":4,"image":{"x":263,"y":532,"width":148,"height":81,"assets":{"common":"minion/rarity_common.png","rare":"minion/rarity_rare.png","epic":"minion/rarity_epic.png","legendary":"minion/rarity_legendary.png"}}},"cardSet":{"layer":3,"custom":{"setIcons":"sets","raceOffset":-16,"blendIntensity":2,"tint":{"minion":{"r":0.57,"g":0.56,"b":0.55,"a":0.78},"spell":{"r":0.57,"g":0.56,"b":0.55,"a":0.78},"weapon":{"r":0.67,"g":0.66,"b":0.64,"a":0.78}},"region":{"x":231,"y":604,"width":225,"height":225},"image":{"x":110,"y":585,"width":452,"height":259,"assets":{"default":"minion/custom_base.png"}},"name":"set_watermark"}},"classDecoration":{"layer":2,"image":{"x":71,"y":89,"width":527,"height":793,"assets":{"warrior":"minion/classDecoration_warrior.png","warlock":"minion/classDecoration_warlock.png","shaman":"minion/classDecoration_shaman.png","rogue":"minion/classDecoration_rogue.png","priest":"minion/classDecoration_priest.png","paladin":"minion/classDecoration_paladin.png","mage":"minion/classDecoration_mage.png","hunter":"minion/classDecoration_hunter.png","druid":"minion/classDecoration_druid.png","neutral":"minion/classDecoration_neutral.png"}}},"base":{"layer":1,"image":{"x":169,"y":102,"width":335,"height":465,"assets":{"default":"minion/base.png"}}},"portrait":{"layer":0,"image":{"x":105,"y":100,"width":461,"height":461,"assets":{"default":"minion/portrait.png"}},"clipRegion":{"type":"ellipse","x":166,"y":101,"width":340,"height":459}}},"minion_premium":{"width":670,"height":1000,"elite":{"layer":8,"image":{"x":172,"y":17,"width":485,"height":341,"assets":{"default":"minion_premium/elite.png"}}},"name":{"layer":7,"font":{"color":"#FFFFFF","outline":"#000000","family":"Belwe Bd BT","size":34},"textCurve":{"start":{"x":110,"y":535},"c1":{"x":214,"y":561},"end":{"x":557,"y":528},"c2":{"x":407,"y":456}},"image":{"x":96,"y":469,"width":485,"height":113,"assets":{"default":"minion_premium/name.png"}}},"attack":{"layer":7,"font":{"color":"#FFFFFF","outline":"#000000","family":"Belwe Bd BT","size":126},"text":{"x":73,"y":776,"width":96,"height":96},"image":{"x":34,"y":721,"width":154,"height":173,"assets":{"default":"minion_premium/attack.png"}}},"health":{"layer":7,"font":{"color":"#FFFFFF","outline":"#000000","family":"Belwe Bd BT","size":126},"text":{"x":506,"y":777,"width":96,"height":96},"image":{"x":503,"y":728,"width":110,"height":165,"assets":{"default":"minion_premium/health.png"}}},"cost":{"layer":7,"font":{"color":"#FFFFFF","outline":"#000000","family":"Belwe Bd BT","size":137},"text":{"x":65,"y":124,"width":102,"height":104},"image":{"x":47,"y":106,"width":140,"height":143,"assets":{"default":"minion_premium/cost.png"}}},"multiClass":{"layer":6,"image":{"x":59,"y":118,"width":125,"height":269,"assets":{"kabal":"minion_premium/multiClass_kabal.png","grimy_goons":"minion_premium/multiClass_grimy_goons.png","jade_lotus":"minion_premium/multiClass_jade_lotus.png"}}},"rarity":{"layer":6,"image":{"x":245,"y":528,"width":173,"height":90,"assets":{"common":"minion_premium/rarity_common.png","rare":"minion_premium/rarity_rare.png","epic":"minion_premium/rarity_epic.png","legendary":"minion_premium/rarity_legendary.png"}}},"extra":{"layer":5,"image":{"x":119,"y":66,"width":434,"height":531,"assets":{"default":"minion_premium/extra.png"}}},"description":{"layer":5,"font":{"type":"textBlock","color":"#FFFFFF","family":"Franklin Gothic FS","size":38},"text":{"x":142,"y":627,"width":388,"height":168}},"race":{"layer":4,"font":{"color":"#FFFFFF","outline":"#000000","family":"Belwe Bd BT","size":40},"text":{"x":227,"y":806,"width":240,"height":40},"image":{"x":139,"y":779,"width":408,"height":81,"assets":{"default":"minion_premium/race.png"}}},"cardSet":{"layer":3,"custom":{"setIcons":"sets","raceOffset":-16,"blendIntensity":2,"tint":{"minion":{"r":0.57,"g":0.56,"b":0.55,"a":0.78},"spell":{"r":0.57,"g":0.56,"b":0.55,"a":0.78},"weapon":{"r":0.67,"g":0.66,"b":0.64,"a":0.78}},"region":{"x":231,"y":606,"width":225,"height":225},"image":{"x":110,"y":585,"width":452,"height":260,"assets":{"default":"minion_premium/custom_base.png"}},"name":"set_watermark"}},"classDecoration":{"layer":2,"image":{"x":227,"y":548,"width":231,"height":336,"assets":{"druid":"minion_premium/classDecoration_druid.png","hunter":"minion_premium/classDecoration_hunter.png","mage":"minion_premium/classDecoration_mage.png","paladin":"minion_premium/classDecoration_paladin.png","priest":"minion_premium/classDecoration_priest.png","rogue":"minion_premium/classDecoration_rogue.png","shaman":"minion_premium/classDecoration_shaman.png","warlock":"minion_premium/classDecoration_warlock.png","warrior":"minion_premium/classDecoration_warrior.png","neutral":"minion_premium/classDecoration_neutral.png"}}},"base":{"layer":1,"image":{"x":70,"y":108,"width":528,"height":776,"assets":{"default":"minion_premium/base.png"}}},"portrait":{"layer":0,"image":{"x":98,"y":93,"width":476,"height":476,"assets":{"default":"minion_premium/portrait.png"}},"clipRegion":{"type":"ellipse","x":172,"y":108,"width":327,"height":451}}},"spell":{"width":670,"height":1000,"cost":{"layer":6,"font":{"color":"#FFFFFF","outline":"#000000","family":"Belwe Bd BT","size":137},"text":{"x":70,"y":120,"width":102,"height":104},"image":{"x":53,"y":103,"width":139,"height":143,"assets":{"default":"spell/cost.png"}}},"name":{"layer":6,"font":{"color":"#FFFFFF","outline":"#000000","family":"Belwe Bd BT","size":34},"textCurve":{"start":{"x":121,"y":529},"c1":{"x":121,"y":529},"end":{"x":546,"y":529},"c2":{"x":334,"y":457}},"image":{"x":80,"y":457,"width":507,"height":155,"assets":{"default":"spell/name.png"}}},"rarity":{"layer":5,"image":{"x":272,"y":541,"width":116,"height":77,"assets":{"common":"spell/rarity_common.png","rare":"spell/rarity_rare.png","epic":"spell/rarity_epic.png","legendary":"spell/rarity_legendary.png"}}},"description":{"layer":4,"font":{"type":"textBlock","color":"#000000","family":"Franklin Gothic FS","size":38},"text":{"x":150,"y":641,"width":363,"height":160}},"cardSet":{"layer":3,"custom":{"setIcons":"sets","raceOffset":-16,"blendIntensity":2,"tint":{"minion":{"r":0.57,"g":0.56,"b":0.55,"a":0.78},"spell":{"r":0.57,"g":0.56,"b":0.55,"a":0.78},"weapon":{"r":0.67,"g":0.66,"b":0.64,"a":0.78}},"region":{"x":231,"y":618,"width":210,"height":210},"image":{"x":104,"y":556,"width":458,"height":289,"assets":{"default":"spell/custom_base.png"}},"name":"set_watermark"}},"classDecoration":{"layer":2,"image":{"x":72,"y":132,"width":527,"height":746,"assets":{"neutral":"spell/classDecoration_neutral.png","warrior":"spell/classDecoration_warrior.png","warlock":"spell/classDecoration_warlock.png","shaman":"spell/classDecoration_shaman.png","rogue":"spell/classDecoration_rogue.png","priest":"spell/classDecoration_priest.png","paladin":"spell/classDecoration_paladin.png","mage":"spell/classDecoration_mage.png","hunter":"spell/classDecoration_hunter.png","druid":"spell/classDecoration_druid.png"}}},"base":{"layer":1,"image":{"x":118,"y":170,"width":426,"height":352,"assets":{"default":"spell/base.png"}}},"portrait":{"layer":0,"image":{"x":123,"y":138,"width":418,"height":418,"assets":{"default":"spell/portrait.png"}},"clipRegion":{"type":"rectangle","x":101,"y":163,"width":466,"height":366}}},"spell_premium":{"width":670,"height":1000,"cost":{"layer":5,"font":{"color":"#FFFFFF","outline":"#000000","family":"Belwe Bd BT","size":137},"text":{"x":70,"y":120,"width":102,"height":104},"image":{"x":52,"y":103,"width":139,"height":143,"assets":{"default":"spell_premium/cost.png"}}},"rarity":{"layer":5,"image":{"x":283,"y":545,"width":107,"height":74,"assets":{"common":"spell_premium/rarity_common.png","rare":"spell_premium/rarity_rare.png","epic":"spell_premium/rarity_epic.png","legendary":"spell_premium/rarity_legendary.png"}}},"description":{"layer":4,"font":{"type":"textBlock","color":"#FFFFFF","family":"Franklin Gothic FS","size":38},"text":{"x":155,"y":646,"width":358,"height":162}},"name":{"layer":4,"font":{"color":"#FFFFFF","outline":"#000000","family":"Belwe Bd BT","size":34},"textCurve":{"start":{"x":121,"y":535},"c1":{"x":121,"y":535},"end":{"x":546,"y":535},"c2":{"x":334,"y":463}},"image":{"x":84,"y":464,"width":497,"height":152,"assets":{"default":"spell_premium/name.png"}}},"cardSet":{"layer":3,"custom":{"setIcons":"sets","raceOffset":-16,"blendIntensity":2,"tint":{"minion":{"r":0.57,"g":0.56,"b":0.55,"a":0.78},"spell":{"r":0.57,"g":0.56,"b":0.55,"a":0.78},"weapon":{"r":0.67,"g":0.66,"b":0.64,"a":0.78}},"region":{"x":233,"y":625,"width":210,"height":210},"image":{"x":107,"y":561,"width":459,"height":293,"assets":{"default":"spell_premium/custom_base.png"}},"name":"set_watermark"}},"classDecoration":{"layer":2,"image":{"x":220,"y":125,"width":226,"height":755,"assets":{"neutral":"spell_premium/classDecoration_neutral.png","warrior":"spell_premium/classDecoration_warrior.png","warlock":"spell_premium/classDecoration_warlock.png","shaman":"spell_premium/classDecoration_shaman.png","rogue":"spell_premium/classDecoration_rogue.png","priest":"spell_premium/classDecoration_priest.png","paladin":"spell_premium/classDecoration_paladin.png","mage":"spell_premium/classDecoration_mage.png","hunter":"spell_premium/classDecoration_hunter.png","druid":"spell_premium/classDecoration_druid.png"}}},"base":{"layer":1,"image":{"x":52,"y":125,"width":580,"height":755,"assets":{"default":"spell_premium/base.png"}}},"portrait":{"layer":0,"image":{"x":121,"y":126,"width":423,"height":422,"assets":{"default":"spell_premium/portrait.png"}},"clipRegion":{"type":"rectangle","x":122,"y":168,"width":422,"height":340}}},"weapon":{"width":670,"height":1000,"cost":{"layer":7,"font":{"color":"#FFFFFF","outline":"#000000","family":"Belwe Bd BT","size":137},"text":{"x":78,"y":118,"width":102,"height":104},"image":{"x":58,"y":100,"width":140,"height":143,"assets":{"default":"weapon/cost.png"}}},"attack":{"layer":7,"font":{"color":"#FFFFFF","outline":"#000000","family":"Belwe Bd BT","size":126},"text":{"x":88,"y":772,"width":96,"height":96},"image":{"x":65,"y":753,"width":135,"height":133,"assets":{"default":"weapon/attack.png"}}},"health":{"layer":7,"font":{"color":"#FFFFFF","outline":"#000000","family":"Belwe Bd BT","size":126},"text":{"x":515,"y":771,"width":96,"height":96},"image":{"x":501,"y":744,"width":126,"height":140,"assets":{"default":"weapon/health.png"}}},"name":{"layer":6,"font":{"color":"#FFFFFF","outline":"#000000","family":"Belwe Bd BT","size":34},"textCurve":{"start":{"x":121,"y":505},"c1":{"x":121,"y":505},"end":{"x":563,"y":505},"c2":{"x":563,"y":505}},"image":{"x":87,"y":468,"width":514,"height":108,"assets":{"default":"weapon/name.png"}}},"rarity":{"layer":5,"image":{"x":302,"y":520,"width":96,"height":90,"assets":{"common":"weapon/rarity_common.png","rare":"weapon/rarity_rare.png","epic":"weapon/rarity_epic.png","legendary":"weapon/rarity_legendary.png"}}},"description":{"layer":4,"font":{"type":"textBlock","color":"#FFFFFF","family":"Franklin Gothic FS","size":38},"text":{"x":161,"y":625,"width":360,"height":172}},"cardSet":{"layer":3,"custom":{"setIcons":"sets","raceOffset":-16,"blendIntensity":2,"tint":{"minion":{"r":0.57,"g":0.56,"b":0.55,"a":0.78},"spell":{"r":0.57,"g":0.56,"b":0.55,"a":0.78},"weapon":{"r":0.67,"g":0.66,"b":0.64,"a":0.78}},"region":{"x":241,"y":599,"width":220,"height":220},"image":{"x":149,"y":616,"width":384,"height":188,"assets":{"default":"weapon/custom_base.png"}},"name":"set_watermark"}},"classDecoration":{"layer":2,"image":{"x":113,"y":579,"width":459,"height":264,"assets":{"neutral":"weapon/classDecoration_neutral.png","warrior":"weapon/classDecoration_warrior.png","warlock":"weapon/classDecoration_warlock.png","shaman":"weapon/classDecoration_shaman.png","rogue":"weapon/classDecoration_rogue.png","priest":"weapon/classDecoration_priest.png","paladin":"weapon/classDecoration_paladin.png","mage":"weapon/classDecoration_mage.png","hunter":"weapon/classDecoration_hunter.png","druid":"weapon/classDecoration_druid.png"}}},"base":{"layer":1,"image":{"x":80,"y":103,"width":527,"height":775,"assets":{"default":"weapon/base.png"}}},"portrait":{"layer":0,"image":{"x":152,"y":135,"width":384,"height":384,"assets":{"default":"weapon/portrait.png"}},"clipRegion":{"type":"ellipse","x":159,"y":139,"width":376,"height":376}}}}
+{
+	"name": "default",
+	"minion": {
+		"width": 670,
+		"height": 1000,
+		"elite": {
+			"layer": 6,
+			"image": {
+				"x": 188,
+				"y": 52,
+				"width": 436,
+				"height": 325,
+				"assets": {
+					"default": "minion/elite.png"
+				}
+			}
+		},
+		"health": {
+			"layer": 5,
+			"font": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 126
+			},
+			"text": {
+				"x": 506,
+				"y": 777,
+				"width": 96,
+				"height": 96
+			},
+			"image": {
+				"x": 504,
+				"y": 728,
+				"width": 109,
+				"height": 164,
+				"assets": {
+					"default": "minion/health.png"
+				}
+			}
+		},
+		"cost": {
+			"layer": 5,
+			"font": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 137
+			},
+			"text": {
+				"x": 65,
+				"y": 124,
+				"width": 102,
+				"height": 104
+			},
+			"image": {
+				"x": 47,
+				"y": 105,
+				"width": 140,
+				"height": 144,
+				"assets": {
+					"default": "minion/cost.png"
+				}
+			}
+		},
+		"attack": {
+			"layer": 5,
+			"font": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 126
+			},
+			"text": {
+				"x": 77,
+				"y": 776,
+				"width": 96,
+				"height": 96
+			},
+			"image": {
+				"x": 36,
+				"y": 721,
+				"width": 154,
+				"height": 173,
+				"assets": {
+					"default": "minion/attack.png"
+				}
+			}
+		},
+		"name": {
+			"layer": 5,
+			"font": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 34
+			},
+			"textCurve": {
+				"start": {
+					"x": 110,
+					"y": 535
+				},
+				"c1": {
+					"x": 214,
+					"y": 561
+				},
+				"end": {
+					"x": 557,
+					"y": 528
+				},
+				"c2": {
+					"x": 407,
+					"y": 456
+				}
+			},
+			"image": {
+				"x": 96,
+				"y": 469,
+				"width": 485,
+				"height": 113,
+				"assets": {
+					"default": "minion/name.png"
+				}
+			}
+		},
+		"description": {
+			"layer": 5,
+			"font": {
+				"type": "textBlock",
+				"color": "#000000",
+				"family": "Franklin Gothic FS",
+				"size": 38
+			},
+			"text": {
+				"x": 143,
+				"y": 627,
+				"width": 388,
+				"height": 168
+			}
+		},
+		"multiClass": {
+			"layer": 4,
+			"image": {
+				"x": 50,
+				"y": 119,
+				"width": 125,
+				"height": 269,
+				"assets": {
+					"kabal": "minion/multiClass_kabal.png",
+					"grimy_goons": "minion/multiClass_grimy_goons.png",
+					"jade_lotus": "minion/multiClass_jade_lotus.png"
+				}
+			}
+		},
+		"race": {
+			"layer": 4,
+			"font": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 40
+			},
+			"text": {
+				"x": 217,
+				"y": 809,
+				"width": 240,
+				"height": 40
+			},
+			"image": {
+				"x": 129,
+				"y": 791,
+				"width": 408,
+				"height": 69,
+				"assets": {
+					"default": "minion/race.png"
+				}
+			}
+		},
+		"rarity": {
+			"layer": 4,
+			"image": {
+				"x": 263,
+				"y": 532,
+				"width": 148,
+				"height": 81,
+				"assets": {
+					"common": "minion/rarity_common.png",
+					"rare": "minion/rarity_rare.png",
+					"epic": "minion/rarity_epic.png",
+					"legendary": "minion/rarity_legendary.png"
+				}
+			}
+		},
+		"cardSet": {
+			"layer": 3,
+			"custom": {
+				"setIcons": "sets",
+				"raceOffset": -16,
+				"blendIntensity": 2,
+				"tint": {
+					"minion": {
+						"r": 0.57,
+						"g": 0.56,
+						"b": 0.55,
+						"a": 0.78
+					},
+					"spell": {
+						"r": 0.57,
+						"g": 0.56,
+						"b": 0.55,
+						"a": 0.78
+					},
+					"weapon": {
+						"r": 0.67,
+						"g": 0.66,
+						"b": 0.64,
+						"a": 0.78
+					},
+					"premium": {
+						"r": 0.57,
+						"g": 0.56,
+						"b": 0.55,
+						"a": 0.78
+					}
+				},
+				"region": {
+					"x": 231,
+					"y": 604,
+					"width": 225,
+					"height": 225
+				},
+				"image": {
+					"x": 110,
+					"y": 585,
+					"width": 452,
+					"height": 259,
+					"assets": {
+						"default": "minion/custom_base.png"
+					}
+				},
+				"name": "set_watermark"
+			}
+		},
+		"classDecoration": {
+			"layer": 2,
+			"image": {
+				"x": 71,
+				"y": 89,
+				"width": 527,
+				"height": 793,
+				"assets": {
+					"warrior": "minion/classDecoration_warrior.png",
+					"warlock": "minion/classDecoration_warlock.png",
+					"shaman": "minion/classDecoration_shaman.png",
+					"rogue": "minion/classDecoration_rogue.png",
+					"priest": "minion/classDecoration_priest.png",
+					"paladin": "minion/classDecoration_paladin.png",
+					"mage": "minion/classDecoration_mage.png",
+					"hunter": "minion/classDecoration_hunter.png",
+					"druid": "minion/classDecoration_druid.png",
+					"neutral": "minion/classDecoration_neutral.png"
+				}
+			}
+		},
+		"base": {
+			"layer": 1,
+			"image": {
+				"x": 169,
+				"y": 102,
+				"width": 335,
+				"height": 465,
+				"assets": {
+					"default": "minion/base.png"
+				}
+			}
+		},
+		"portrait": {
+			"layer": 0,
+			"image": {
+				"x": 105,
+				"y": 100,
+				"width": 461,
+				"height": 461,
+				"assets": {
+					"default": "minion/portrait.png"
+				}
+			},
+			"clipRegion": {
+				"type": "ellipse",
+				"x": 166,
+				"y": 101,
+				"width": 340,
+				"height": 459
+			}
+		}
+	},
+	"minion_premium": {
+		"width": 670,
+		"height": 1000,
+		"elite": {
+			"layer": 8,
+			"image": {
+				"x": 172,
+				"y": 17,
+				"width": 485,
+				"height": 341,
+				"assets": {
+					"default": "minion_premium/elite.png"
+				}
+			}
+		},
+		"name": {
+			"layer": 7,
+			"font": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 34
+			},
+			"textCurve": {
+				"start": {
+					"x": 110,
+					"y": 535
+				},
+				"c1": {
+					"x": 214,
+					"y": 561
+				},
+				"end": {
+					"x": 557,
+					"y": 528
+				},
+				"c2": {
+					"x": 407,
+					"y": 456
+				}
+			},
+			"image": {
+				"x": 96,
+				"y": 469,
+				"width": 485,
+				"height": 113,
+				"assets": {
+					"default": "minion_premium/name.png"
+				}
+			}
+		},
+		"attack": {
+			"layer": 7,
+			"font": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 126
+			},
+			"text": {
+				"x": 73,
+				"y": 776,
+				"width": 96,
+				"height": 96
+			},
+			"image": {
+				"x": 34,
+				"y": 721,
+				"width": 154,
+				"height": 173,
+				"assets": {
+					"default": "minion_premium/attack.png"
+				}
+			}
+		},
+		"health": {
+			"layer": 7,
+			"font": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 126
+			},
+			"text": {
+				"x": 506,
+				"y": 777,
+				"width": 96,
+				"height": 96
+			},
+			"image": {
+				"x": 503,
+				"y": 728,
+				"width": 110,
+				"height": 165,
+				"assets": {
+					"default": "minion_premium/health.png"
+				}
+			}
+		},
+		"cost": {
+			"layer": 7,
+			"font": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 137
+			},
+			"text": {
+				"x": 65,
+				"y": 124,
+				"width": 102,
+				"height": 104
+			},
+			"image": {
+				"x": 47,
+				"y": 106,
+				"width": 140,
+				"height": 143,
+				"assets": {
+					"default": "minion_premium/cost.png"
+				}
+			}
+		},
+		"multiClass": {
+			"layer": 6,
+			"image": {
+				"x": 59,
+				"y": 118,
+				"width": 125,
+				"height": 269,
+				"assets": {
+					"kabal": "minion_premium/multiClass_kabal.png",
+					"grimy_goons": "minion_premium/multiClass_grimy_goons.png",
+					"jade_lotus": "minion_premium/multiClass_jade_lotus.png"
+				}
+			}
+		},
+		"rarity": {
+			"layer": 6,
+			"image": {
+				"x": 245,
+				"y": 528,
+				"width": 173,
+				"height": 90,
+				"assets": {
+					"common": "minion_premium/rarity_common.png",
+					"rare": "minion_premium/rarity_rare.png",
+					"epic": "minion_premium/rarity_epic.png",
+					"legendary": "minion_premium/rarity_legendary.png"
+				}
+			}
+		},
+		"extra": {
+			"layer": 5,
+			"image": {
+				"x": 119,
+				"y": 66,
+				"width": 434,
+				"height": 531,
+				"assets": {
+					"default": "minion_premium/extra.png"
+				}
+			}
+		},
+		"description": {
+			"layer": 5,
+			"font": {
+				"type": "textBlock",
+				"color": "#FFFFFF",
+				"family": "Franklin Gothic FS",
+				"size": 38
+			},
+			"text": {
+				"x": 142,
+				"y": 627,
+				"width": 388,
+				"height": 168
+			}
+		},
+		"race": {
+			"layer": 4,
+			"font": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 40
+			},
+			"text": {
+				"x": 227,
+				"y": 806,
+				"width": 240,
+				"height": 40
+			},
+			"image": {
+				"x": 139,
+				"y": 779,
+				"width": 408,
+				"height": 81,
+				"assets": {
+					"default": "minion_premium/race.png"
+				}
+			}
+		},
+		"cardSet": {
+			"layer": 3,
+			"custom": {
+				"setIcons": "sets",
+				"raceOffset": -16,
+				"blendIntensity": 2,
+				"tint": {
+					"minion": {
+						"r": 0.57,
+						"g": 0.56,
+						"b": 0.55,
+						"a": 0.78
+					},
+					"spell": {
+						"r": 0.57,
+						"g": 0.56,
+						"b": 0.55,
+						"a": 0.78
+					},
+					"weapon": {
+						"r": 0.67,
+						"g": 0.66,
+						"b": 0.64,
+						"a": 0.78
+					},
+					"premium": {
+						"r": 0.57,
+						"g": 0.56,
+						"b": 0.55,
+						"a": 0.78
+					}
+				},
+				"region": {
+					"x": 231,
+					"y": 606,
+					"width": 225,
+					"height": 225
+				},
+				"image": {
+					"x": 110,
+					"y": 585,
+					"width": 452,
+					"height": 260,
+					"assets": {
+						"default": "minion_premium/custom_base.png"
+					}
+				},
+				"name": "set_watermark"
+			}
+		},
+		"classDecoration": {
+			"layer": 2,
+			"image": {
+				"x": 227,
+				"y": 548,
+				"width": 231,
+				"height": 336,
+				"assets": {
+					"druid": "minion_premium/classDecoration_druid.png",
+					"hunter": "minion_premium/classDecoration_hunter.png",
+					"mage": "minion_premium/classDecoration_mage.png",
+					"paladin": "minion_premium/classDecoration_paladin.png",
+					"priest": "minion_premium/classDecoration_priest.png",
+					"rogue": "minion_premium/classDecoration_rogue.png",
+					"shaman": "minion_premium/classDecoration_shaman.png",
+					"warlock": "minion_premium/classDecoration_warlock.png",
+					"warrior": "minion_premium/classDecoration_warrior.png",
+					"neutral": "minion_premium/classDecoration_neutral.png"
+				}
+			}
+		},
+		"base": {
+			"layer": 1,
+			"image": {
+				"x": 70,
+				"y": 108,
+				"width": 528,
+				"height": 776,
+				"assets": {
+					"default": "minion_premium/base.png"
+				}
+			}
+		},
+		"portrait": {
+			"layer": 0,
+			"image": {
+				"x": 98,
+				"y": 93,
+				"width": 476,
+				"height": 476,
+				"assets": {
+					"default": "minion_premium/portrait.png"
+				}
+			},
+			"clipRegion": {
+				"type": "ellipse",
+				"x": 172,
+				"y": 108,
+				"width": 327,
+				"height": 451
+			}
+		}
+	},
+	"spell": {
+		"width": 670,
+		"height": 1000,
+		"cost": {
+			"layer": 6,
+			"font": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 137
+			},
+			"text": {
+				"x": 70,
+				"y": 120,
+				"width": 102,
+				"height": 104
+			},
+			"image": {
+				"x": 53,
+				"y": 103,
+				"width": 139,
+				"height": 143,
+				"assets": {
+					"default": "spell/cost.png"
+				}
+			}
+		},
+		"name": {
+			"layer": 6,
+			"font": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 34
+			},
+			"textCurve": {
+				"start": {
+					"x": 121,
+					"y": 529
+				},
+				"c1": {
+					"x": 121,
+					"y": 529
+				},
+				"end": {
+					"x": 546,
+					"y": 529
+				},
+				"c2": {
+					"x": 334,
+					"y": 457
+				}
+			},
+			"image": {
+				"x": 80,
+				"y": 457,
+				"width": 507,
+				"height": 155,
+				"assets": {
+					"default": "spell/name.png"
+				}
+			}
+		},
+		"rarity": {
+			"layer": 5,
+			"image": {
+				"x": 272,
+				"y": 541,
+				"width": 116,
+				"height": 77,
+				"assets": {
+					"common": "spell/rarity_common.png",
+					"rare": "spell/rarity_rare.png",
+					"epic": "spell/rarity_epic.png",
+					"legendary": "spell/rarity_legendary.png"
+				}
+			}
+		},
+		"description": {
+			"layer": 4,
+			"font": {
+				"type": "textBlock",
+				"color": "#000000",
+				"family": "Franklin Gothic FS",
+				"size": 38
+			},
+			"text": {
+				"x": 150,
+				"y": 641,
+				"width": 363,
+				"height": 160
+			}
+		},
+		"cardSet": {
+			"layer": 3,
+			"custom": {
+				"setIcons": "sets",
+				"raceOffset": -16,
+				"blendIntensity": 2,
+				"tint": {
+					"minion": {
+						"r": 0.57,
+						"g": 0.56,
+						"b": 0.55,
+						"a": 0.78
+					},
+					"spell": {
+						"r": 0.57,
+						"g": 0.56,
+						"b": 0.55,
+						"a": 0.78
+					},
+					"weapon": {
+						"r": 0.67,
+						"g": 0.66,
+						"b": 0.64,
+						"a": 0.78
+					},
+					"premium": {
+						"r": 0.57,
+						"g": 0.56,
+						"b": 0.55,
+						"a": 0.78
+					}
+				},
+				"region": {
+					"x": 231,
+					"y": 618,
+					"width": 210,
+					"height": 210
+				},
+				"image": {
+					"x": 104,
+					"y": 556,
+					"width": 458,
+					"height": 289,
+					"assets": {
+						"default": "spell/custom_base.png"
+					}
+				},
+				"name": "set_watermark"
+			}
+		},
+		"classDecoration": {
+			"layer": 2,
+			"image": {
+				"x": 72,
+				"y": 132,
+				"width": 527,
+				"height": 746,
+				"assets": {
+					"neutral": "spell/classDecoration_neutral.png",
+					"warrior": "spell/classDecoration_warrior.png",
+					"warlock": "spell/classDecoration_warlock.png",
+					"shaman": "spell/classDecoration_shaman.png",
+					"rogue": "spell/classDecoration_rogue.png",
+					"priest": "spell/classDecoration_priest.png",
+					"paladin": "spell/classDecoration_paladin.png",
+					"mage": "spell/classDecoration_mage.png",
+					"hunter": "spell/classDecoration_hunter.png",
+					"druid": "spell/classDecoration_druid.png"
+				}
+			}
+		},
+		"base": {
+			"layer": 1,
+			"image": {
+				"x": 118,
+				"y": 170,
+				"width": 426,
+				"height": 352,
+				"assets": {
+					"default": "spell/base.png"
+				}
+			}
+		},
+		"portrait": {
+			"layer": 0,
+			"image": {
+				"x": 123,
+				"y": 138,
+				"width": 418,
+				"height": 418,
+				"assets": {
+					"default": "spell/portrait.png"
+				}
+			},
+			"clipRegion": {
+				"type": "rectangle",
+				"x": 101,
+				"y": 163,
+				"width": 466,
+				"height": 366
+			}
+		}
+	},
+	"spell_premium": {
+		"width": 670,
+		"height": 1000,
+		"cost": {
+			"layer": 5,
+			"font": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 137
+			},
+			"text": {
+				"x": 70,
+				"y": 120,
+				"width": 102,
+				"height": 104
+			},
+			"image": {
+				"x": 52,
+				"y": 103,
+				"width": 139,
+				"height": 143,
+				"assets": {
+					"default": "spell_premium/cost.png"
+				}
+			}
+		},
+		"rarity": {
+			"layer": 5,
+			"image": {
+				"x": 283,
+				"y": 545,
+				"width": 107,
+				"height": 74,
+				"assets": {
+					"common": "spell_premium/rarity_common.png",
+					"rare": "spell_premium/rarity_rare.png",
+					"epic": "spell_premium/rarity_epic.png",
+					"legendary": "spell_premium/rarity_legendary.png"
+				}
+			}
+		},
+		"description": {
+			"layer": 4,
+			"font": {
+				"type": "textBlock",
+				"color": "#FFFFFF",
+				"family": "Franklin Gothic FS",
+				"size": 38
+			},
+			"text": {
+				"x": 155,
+				"y": 646,
+				"width": 358,
+				"height": 162
+			}
+		},
+		"name": {
+			"layer": 4,
+			"font": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 34
+			},
+			"textCurve": {
+				"start": {
+					"x": 121,
+					"y": 535
+				},
+				"c1": {
+					"x": 121,
+					"y": 535
+				},
+				"end": {
+					"x": 546,
+					"y": 535
+				},
+				"c2": {
+					"x": 334,
+					"y": 463
+				}
+			},
+			"image": {
+				"x": 84,
+				"y": 464,
+				"width": 497,
+				"height": 152,
+				"assets": {
+					"default": "spell_premium/name.png"
+				}
+			}
+		},
+		"cardSet": {
+			"layer": 3,
+			"custom": {
+				"setIcons": "sets",
+				"raceOffset": -16,
+				"blendIntensity": 2,
+				"tint": {
+					"minion": {
+						"r": 0.57,
+						"g": 0.56,
+						"b": 0.55,
+						"a": 0.78
+					},
+					"spell": {
+						"r": 0.57,
+						"g": 0.56,
+						"b": 0.55,
+						"a": 0.78
+					},
+					"weapon": {
+						"r": 0.67,
+						"g": 0.66,
+						"b": 0.64,
+						"a": 0.78
+					},
+					"premium": {
+						"r": 0.57,
+						"g": 0.56,
+						"b": 0.55,
+						"a": 0.78
+					}
+				},
+				"region": {
+					"x": 233,
+					"y": 625,
+					"width": 210,
+					"height": 210
+				},
+				"image": {
+					"x": 107,
+					"y": 561,
+					"width": 459,
+					"height": 293,
+					"assets": {
+						"default": "spell_premium/custom_base.png"
+					}
+				},
+				"name": "set_watermark"
+			}
+		},
+		"classDecoration": {
+			"layer": 2,
+			"image": {
+				"x": 220,
+				"y": 125,
+				"width": 226,
+				"height": 755,
+				"assets": {
+					"neutral": "spell_premium/classDecoration_neutral.png",
+					"warrior": "spell_premium/classDecoration_warrior.png",
+					"warlock": "spell_premium/classDecoration_warlock.png",
+					"shaman": "spell_premium/classDecoration_shaman.png",
+					"rogue": "spell_premium/classDecoration_rogue.png",
+					"priest": "spell_premium/classDecoration_priest.png",
+					"paladin": "spell_premium/classDecoration_paladin.png",
+					"mage": "spell_premium/classDecoration_mage.png",
+					"hunter": "spell_premium/classDecoration_hunter.png",
+					"druid": "spell_premium/classDecoration_druid.png"
+				}
+			}
+		},
+		"base": {
+			"layer": 1,
+			"image": {
+				"x": 52,
+				"y": 125,
+				"width": 580,
+				"height": 755,
+				"assets": {
+					"default": "spell_premium/base.png"
+				}
+			}
+		},
+		"portrait": {
+			"layer": 0,
+			"image": {
+				"x": 121,
+				"y": 126,
+				"width": 423,
+				"height": 422,
+				"assets": {
+					"default": "spell_premium/portrait.png"
+				}
+			},
+			"clipRegion": {
+				"type": "rectangle",
+				"x": 122,
+				"y": 168,
+				"width": 422,
+				"height": 340
+			}
+		}
+	},
+	"weapon": {
+		"width": 670,
+		"height": 1000,
+		"cost": {
+			"layer": 7,
+			"font": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 137
+			},
+			"text": {
+				"x": 78,
+				"y": 118,
+				"width": 102,
+				"height": 104
+			},
+			"image": {
+				"x": 58,
+				"y": 100,
+				"width": 140,
+				"height": 143,
+				"assets": {
+					"default": "weapon/cost.png"
+				}
+			}
+		},
+		"attack": {
+			"layer": 7,
+			"font": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 126
+			},
+			"text": {
+				"x": 88,
+				"y": 772,
+				"width": 96,
+				"height": 96
+			},
+			"image": {
+				"x": 65,
+				"y": 753,
+				"width": 135,
+				"height": 133,
+				"assets": {
+					"default": "weapon/attack.png"
+				}
+			}
+		},
+		"health": {
+			"layer": 7,
+			"font": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 126
+			},
+			"text": {
+				"x": 515,
+				"y": 771,
+				"width": 96,
+				"height": 96
+			},
+			"image": {
+				"x": 501,
+				"y": 744,
+				"width": 126,
+				"height": 140,
+				"assets": {
+					"default": "weapon/health.png"
+				}
+			}
+		},
+		"name": {
+			"layer": 6,
+			"font": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 34
+			},
+			"textCurve": {
+				"start": {
+					"x": 121,
+					"y": 505
+				},
+				"c1": {
+					"x": 121,
+					"y": 505
+				},
+				"end": {
+					"x": 563,
+					"y": 505
+				},
+				"c2": {
+					"x": 563,
+					"y": 505
+				}
+			},
+			"image": {
+				"x": 87,
+				"y": 468,
+				"width": 514,
+				"height": 108,
+				"assets": {
+					"default": "weapon/name.png"
+				}
+			}
+		},
+		"rarity": {
+			"layer": 5,
+			"image": {
+				"x": 302,
+				"y": 520,
+				"width": 96,
+				"height": 90,
+				"assets": {
+					"common": "weapon/rarity_common.png",
+					"rare": "weapon/rarity_rare.png",
+					"epic": "weapon/rarity_epic.png",
+					"legendary": "weapon/rarity_legendary.png"
+				}
+			}
+		},
+		"description": {
+			"layer": 4,
+			"font": {
+				"type": "textBlock",
+				"color": "#FFFFFF",
+				"family": "Franklin Gothic FS",
+				"size": 38
+			},
+			"text": {
+				"x": 161,
+				"y": 625,
+				"width": 360,
+				"height": 172
+			}
+		},
+		"cardSet": {
+			"layer": 3,
+			"custom": {
+				"setIcons": "sets",
+				"raceOffset": -16,
+				"blendIntensity": 2,
+				"tint": {
+					"minion": {
+						"r": 0.57,
+						"g": 0.56,
+						"b": 0.55,
+						"a": 0.78
+					},
+					"spell": {
+						"r": 0.57,
+						"g": 0.56,
+						"b": 0.55,
+						"a": 0.78
+					},
+					"weapon": {
+						"r": 0.67,
+						"g": 0.66,
+						"b": 0.64,
+						"a": 0.78
+					},
+					"premium": {
+						"r": 0.57,
+						"g": 0.56,
+						"b": 0.55,
+						"a": 0.78
+					}
+				},
+				"region": {
+					"x": 241,
+					"y": 599,
+					"width": 220,
+					"height": 220
+				},
+				"image": {
+					"x": 149,
+					"y": 616,
+					"width": 384,
+					"height": 188,
+					"assets": {
+						"default": "weapon/custom_base.png"
+					}
+				},
+				"name": "set_watermark"
+			}
+		},
+		"classDecoration": {
+			"layer": 2,
+			"image": {
+				"x": 113,
+				"y": 579,
+				"width": 459,
+				"height": 264,
+				"assets": {
+					"neutral": "weapon/classDecoration_neutral.png",
+					"warrior": "weapon/classDecoration_warrior.png",
+					"warlock": "weapon/classDecoration_warlock.png",
+					"shaman": "weapon/classDecoration_shaman.png",
+					"rogue": "weapon/classDecoration_rogue.png",
+					"priest": "weapon/classDecoration_priest.png",
+					"paladin": "weapon/classDecoration_paladin.png",
+					"mage": "weapon/classDecoration_mage.png",
+					"hunter": "weapon/classDecoration_hunter.png",
+					"druid": "weapon/classDecoration_druid.png"
+				}
+			}
+		},
+		"base": {
+			"layer": 1,
+			"image": {
+				"x": 80,
+				"y": 103,
+				"width": 527,
+				"height": 775,
+				"assets": {
+					"default": "weapon/base.png"
+				}
+			}
+		},
+		"portrait": {
+			"layer": 0,
+			"image": {
+				"x": 152,
+				"y": 135,
+				"width": 384,
+				"height": 384,
+				"assets": {
+					"default": "weapon/portrait.png"
+				}
+			},
+			"clipRegion": {
+				"type": "ellipse",
+				"x": 159,
+				"y": 139,
+				"width": 376,
+				"height": 376
+			}
+		}
+	},
+	"weapon_premium": {
+		"width": 670,
+		"height": 1000,
+		"cost": {
+			"layer": 8,
+			"font": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 137
+			},
+			"text": {
+				"x": 78,
+				"y": 118,
+				"width": 102,
+				"height": 104
+			},
+			"image": {
+				"x": 57,
+				"y": 100,
+				"width": 140,
+				"height": 143,
+				"assets": {
+					"default": "weapon_premium/cost.png"
+				}
+			}
+		},
+		"health": {
+			"layer": 8,
+			"font": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 126
+			},
+			"text": {
+				"x": 515,
+				"y": 771,
+				"width": 96,
+				"height": 96
+			},
+			"image": {
+				"x": 500,
+				"y": 744,
+				"width": 126,
+				"height": 140,
+				"assets": {
+					"default": "weapon_premium/health.png"
+				}
+			}
+		},
+		"attack": {
+			"layer": 8,
+			"font": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 126
+			},
+			"text": {
+				"x": 88,
+				"y": 772,
+				"width": 96,
+				"height": 96
+			},
+			"image": {
+				"x": 64,
+				"y": 753,
+				"width": 135,
+				"height": 133,
+				"assets": {
+					"default": "weapon_premium/attack.png"
+				}
+			}
+		},
+		"name": {
+			"layer": 7,
+			"font": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 34
+			},
+			"textCurve": {
+				"start": {
+					"x": 121,
+					"y": 505
+				},
+				"c1": {
+					"x": 121,
+					"y": 505
+				},
+				"end": {
+					"x": 563,
+					"y": 505
+				},
+				"c2": {
+					"x": 563,
+					"y": 505
+				}
+			},
+			"image": {
+				"x": 86,
+				"y": 468,
+				"width": 514,
+				"height": 108,
+				"assets": {
+					"default": "weapon_premium/name.png"
+				}
+			}
+		},
+		"rarity": {
+			"layer": 6,
+			"image": {
+				"x": 301,
+				"y": 520,
+				"width": 96,
+				"height": 90,
+				"assets": {
+					"legendary": "weapon_premium/rarity_legendary.png",
+					"epic": "weapon_premium/rarity_epic.png",
+					"rare": "weapon_premium/rarity_rare.png",
+					"common": "weapon_premium/rarity_common.png"
+				}
+			}
+		},
+		"description": {
+			"layer": 5,
+			"font": {
+				"type": "textBlock",
+				"color": "#FFFFFF",
+				"family": "Franklin Gothic FS",
+				"size": 38
+			},
+			"text": {
+				"x": 161,
+				"y": 625,
+				"width": 360,
+				"height": 172
+			}
+		},
+		"cardSet": {
+			"layer": 4,
+			"custom": {
+				"setIcons": "sets",
+				"raceOffset": -16,
+				"blendIntensity": 2,
+				"tint": {
+					"minion": {
+						"r": 0.57,
+						"g": 0.56,
+						"b": 0.55,
+						"a": 0.78
+					},
+					"spell": {
+						"r": 0.57,
+						"g": 0.56,
+						"b": 0.55,
+						"a": 0.78
+					},
+					"weapon": {
+						"r": 0.67,
+						"g": 0.66,
+						"b": 0.64,
+						"a": 0.78
+					},
+					"premium": {
+						"r": 0.57,
+						"g": 0.56,
+						"b": 0.55,
+						"a": 0.78
+					}
+				},
+				"region": {
+					"x": 241,
+					"y": 599,
+					"width": 220,
+					"height": 220
+				},
+				"image": {
+					"x": 112,
+					"y": 579,
+					"width": 459,
+					"height": 264,
+					"assets": {
+						"default": "weapon_premium/custom_base.png"
+					}
+				},
+				"name": "set_watermark"
+			}
+		},
+		"extra": {
+			"layer": 3,
+			"image": {
+				"x": 84,
+				"y": 103,
+				"width": 515,
+				"height": 475,
+				"assets": {
+					"default": "weapon_premium/extra.png"
+				}
+			}
+		},
+		"classDecoration": {
+			"layer": 2,
+			"image": {
+				"x": 233,
+				"y": 533,
+				"width": 226,
+				"height": 348,
+				"assets": {
+					"neutral": "weapon_premium/classDecoration_neutral.png",
+					"warrior": "weapon_premium/classDecoration_warrior.png",
+					"warlock": "weapon_premium/classDecoration_warlock.png",
+					"shaman": "weapon_premium/classDecoration_shaman.png",
+					"rogue": "weapon_premium/classDecoration_rogue.png",
+					"priest": "weapon_premium/classDecoration_priest.png",
+					"paladin": "weapon_premium/classDecoration_paladin.png",
+					"mage": "weapon_premium/classDecoration_mage.png",
+					"hunter": "weapon_premium/classDecoration_hunter.png",
+					"druid": "weapon_premium/classDecoration_druid.png"
+				}
+			}
+		},
+		"base": {
+			"layer": 1,
+			"image": {
+				"x": 79,
+				"y": 131,
+				"width": 527,
+				"height": 750,
+				"assets": {
+					"default": "weapon_premium/base.png"
+				}
+			}
+		},
+		"portrait": {
+			"layer": 0,
+			"clipRegion": {
+				"type": "rectangle",
+				"x": 160,
+				"y": 143,
+				"width": 368,
+				"height": 368
+			},
+			"image": {
+				"x": 151,
+				"y": 135,
+				"width": 384,
+				"height": 384,
+				"assets": {
+					"default": "weapon_premium/portrait.png"
+				}
+			}
+		}
+	}
+}
