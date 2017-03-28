@@ -1491,5 +1491,175 @@
 				}
 			}
 		}
+	},
+	"hero_power": {
+		"width": 670,
+		"height": 1000,
+		"cost": {
+			"layer": 2,
+			"font": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 116
+			},
+			"text": {
+				"x": 287,
+				"y": 71,
+				"width": 105,
+				"height": 105
+			}
+		},
+		"name": {
+			"layer": 2,
+			"font": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 32
+			},
+			"textCurve": {
+				"start": {
+					"x": 149,
+					"y": 487
+				},
+				"c1": {
+					"x": 149,
+					"y": 487
+				},
+				"end": {
+					"x": 521,
+					"y": 487
+				},
+				"c2": {
+					"x": 521,
+					"y": 487
+				}
+			}
+		},
+		"description": {
+			"layer": 2,
+			"font": {
+				"type": "textBlock",
+				"color": "#000000",
+				"family": "Franklin Gothic FS",
+				"size": 44
+			},
+			"text": {
+				"x": 145,
+				"y": 603,
+				"width": 379,
+				"height": 156
+			}
+		},
+		"base": {
+			"layer": 1,
+			"image": {
+				"x": 56,
+				"y": 65,
+				"width": 564,
+				"height": 841,
+				"assets": {
+					"default": "hero_power/base.png"
+				}
+			}
+		},
+		"portrait": {
+			"layer": 0,
+			"image": {
+				"x": 208,
+				"y": 163,
+				"width": 261,
+				"height": 261,
+				"assets": {
+					"default": "hero_power/portrait.png"
+				}
+			}
+		}
+	},
+	"hero_power_premium": {
+		"width": 670,
+		"height": 1000,
+		"cost": {
+			"layer": 2,
+			"font": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 116
+			},
+			"text": {
+				"x": 287,
+				"y": 83,
+				"width": 105,
+				"height": 105
+			}
+		},
+		"name": {
+			"layer": 2,
+			"font": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 32
+			},
+			"textCurve": {
+				"start": {
+					"x": 149,
+					"y": 483
+				},
+				"c1": {
+					"x": 149,
+					"y": 483
+				},
+				"end": {
+					"x": 521,
+					"y": 483
+				},
+				"c2": {
+					"x": 521,
+					"y": 483
+				}
+			}
+		},
+		"description": {
+			"layer": 2,
+			"font": {
+				"type": "textBlock",
+				"color": "#000000",
+				"family": "Franklin Gothic FS",
+				"size": 44
+			},
+			"text": {
+				"x": 145,
+				"y": 599,
+				"width": 379,
+				"height": 156
+			}
+		},
+		"base": {
+			"layer": 1,
+			"image": {
+				"x": 56,
+				"y": 60,
+				"width": 564,
+				"height": 846,
+				"assets": {
+					"default": "hero_power_premium/base.png"
+				}
+			}
+		},
+		"portrait": {
+			"layer": 0,
+			"image": {
+				"x": 208,
+				"y": 163,
+				"width": 261,
+				"height": 261,
+				"assets": {
+					"default": "hero_power_premium/portrait.png"
+				}
+			}
+		}
 	}
 }

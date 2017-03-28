@@ -94,6 +94,28 @@
 			"description": {
 				"color": "#FFFFFF"
 			}
+		},
+		"hero_power": {
+			"description": {
+				"size": 44
+			},
+			"cost": {
+				"size": 116
+			},
+			"name": {
+				"size": 32
+			}
+		},
+		"hero_power_premium": {
+			"description": {
+				"size": 44
+			},
+			"cost": {
+				"size": 116
+			},
+			"name": {
+				"size": 32
+			}
 		}
 	}
 }
