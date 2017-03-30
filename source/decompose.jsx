@@ -12,18 +12,8 @@
 (function() {
 	app.preferences.rulerUnits = Units.PIXELS;
 	var doc = app.activeDocument;
-	var pngOpts = new ExportOptionsSaveForWeb();
-
-	pngOpts.PNG8 = false;
-	pngOpts.transparency = true;
-	pngOpts.interlaced = false;
-	pngOpts.quality = 100;
-	pngOpts.includeProfile = false;
-	pngOpts.format = SaveDocumentType.PNG;
-
-	var	referenceLayer = "reference";
+	var pngOpts = pngOptions();
 	var fileExt = ".png";
-
 	var config = loadConfig("decompose.cfg");
 	var logger = createLog("decompose.log");
 	var jsonFile, outputPath, baseName;
@@ -124,14 +114,15 @@
 					result = reClipLayer.exec(layerName);
 					if (result !== null && result.length >= 2) {
 						logger.log("Layer: CLIP " + result[1]);
-						regionBounds = getLayerBounds(group.artLayers[j]);
-						json[cardGroup.name][prefix]["clipRegion"] = {
-							"type": result[1],
-							"x": regionBounds[0] - offset[0],
-							"y": regionBounds[1] - offset[1],
-							"width": regionBounds[2] - regionBounds[0],
-							"height": regionBounds[3] - regionBounds[1]
-						};
+						if (result[1] == "polygon") {
+							json[cardGroup.name][prefix]["clip"] = {
+								"type": result[1],
+								"points": pathPoints(cardGroup.name + "_" + prefix + "_path", offset)
+							};
+						} else {
+							// an old style clip shape
+							logger.log("WARNING: Unknown clip type, " + result[1]);
+						}
 						continue;
 					}
 					// check if its a path layer
@@ -192,22 +183,24 @@
 		parentJson[type][prefix]["custom"] = json["custom"][name];
 	}
 
+	// adds font data (from external json) for text components to the json output
 	function addFont(base, cardType, component, json) {
 		logger.log("Font: " + cardType + ", " + component);
-
+		// open the themes json data file
 		var file = File(base + ".json");
 		if (!file.exists) {
 			logger.log("File not found: " + base + ".json");
+			return;
 		}
-
 		file.open("r");
 		var data = file.read();
 		file.close();
-		var fontData = JSON.parse(data);
-		fontData = fontData["text"];
-
+		// use the loaded font data to define this component
+		var fontData = JSON.parse(data)["text"];
 		if (fontData["default"][component] !== undefined) {
+			// initialize with the default data
 			var font = fontData["default"][component];
+			// overwrite with component specific data if found
 			if (fontData[cardType] !== undefined && fontData[cardType][component] !== undefined) {
 				var obj = fontData[cardType][component];
 				for (var key in obj) {
@@ -218,6 +211,28 @@
 			}
 			json["font"] = font;
 		}
+	}
+
+	// returns an array of the anchor points of a named path
+	// i.e. ignores curves, left/right control points
+	function pathPoints(pathName, offset) {
+		var pathItems, i, point, numPoints, points = [];
+		pathItems = app.activeDocument.pathItems;
+		for (i = 0; i < pathItems.length; i++) {
+			// only want the path with the given name
+			if (pathItems[i].name == pathName) {
+				for (j = 0; j < pathItems[i].subPathItems.length; j++) {
+					for (k = 0; k < pathItems[i].subPathItems[j].pathPoints.length; k++) {
+						point = pathItems[i].subPathItems[j].pathPoints[k];
+						points.push({
+							"x": Math.round(point.anchor[0] - offset[0]),
+							"y": Math.round(point.anchor[1] - offset[1])
+						});
+					}
+				}
+			}
+		}
+		return points;
 	}
 
 	function addPath(pathName, json, offset) {
@@ -318,6 +333,18 @@
 				app.activeDocument = doc;
 				tempDoc.close(SaveOptions.DONOTSAVECHANGES);
 			}
+	}
+
+	// create a PNG options object for saving images
+	function pngOptions() {
+		var opts = new ExportOptionsSaveForWeb();
+		opts.PNG8 = false;
+		opts.transparency = true;
+		opts.interlaced = false;
+		opts.quality = 100;
+		opts.includeProfile = false;
+		opts.format = SaveDocumentType.PNG;
+		return opts;
 	}
 
 	// get the actual bounds of the contents of the layer (transparency ignored)
