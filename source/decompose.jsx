@@ -14,50 +14,49 @@
 	var doc = app.activeDocument;
 	var pngOpts = pngOptions();
 	var fileExt = ".png";
-	var config = loadConfig("decompose.cfg");
 	var logger = createLog("decompose.log");
+	var config = loadConfig("decompose.cfg");
 	var jsonFile, outputPath, baseName;
 
 	function main() {
 		var reGroupName = /(\d+)\s+(\w+)\s*(\w+)?/;
-		var reClipName = /clip\s(\w+)/;
 		var reTextLayer = /^text/;
 		var reDefaultLayer = /^default/;
 		var reClipLayer = /^clip\s+(\w+)/;
 		var rePathLayer = /^path\s+(\w+)/;
+		var offset, json, group, layer, prefix, result, layerIndex,cardGroup,
+			i, j, k, l, q, regionBounds, point, pathItems, layerName, basePath, crop;
 
-		var dims, offset, json, group, layer, prefix, result, layerIndex,
-			cardGroup, i, j, k, l, q, regionLayer, regionBounds, clipType, point,
-			pathItems, layerName, basePath, outFolder;
-
+		// init json and file names
 		baseName = doc.name.substring(0, doc.name.length - 4);
 		basePath = app.activeDocument.path + "/" + baseName;
 		mkdir(basePath);
 		jsonFile = basePath + "/data.json";
 		json = { "name": baseName };
-
+		// walk the layer group hierarchy
 		// top level groups - card types (separate premium and all variants)
 		excludeJump:
 		for (l = 0; l < doc.layerSets.length; l++) {
-			// set the name an output dir for this card type
+			// set the name and output dir for this card type
 			cardGroup = doc.layerSets[l];
-			// skip excluded types
+			// check the configs excluded list for the current card type
 			for (q = 0; q < config.exclude.length; q++) {
 				if (config.exclude[q] == cardGroup.name) {
-					continue excludeJump;
+					continue excludeJump; // jump out of this inner loop
 				}
 			}
 			// create output dir
 			outputPath = basePath + "/" +  cardGroup.name
 			mkdir(outputPath);
-			// use the cardCrop in the config set the required card dimensions,
-			// based on the original 1024x1024 assets
-			// (x, y) is the top left coord and is the offset to adjust for
-			offset = [config.cardCrop.x, config.cardCrop.y];
+			// use the cardCrop in the config (different for each theme)
+			// to set the required card dimensions, based on the original assets.
+			// (x, y) is the top left coord and is the offset to adjust for.
+			crop = config.cardCrop[baseName];
+			offset = [crop.x, crop.y];
 			// add new json object, with (w, h) to use
 			json[cardGroup.name] = {
-				"width": config.cardCrop.width,
-				"height": config.cardCrop.height
+				"width": crop.width,
+				"height": crop.height
 			};
 			// handle components, defined as groups
 			for (i = 0; i < cardGroup.layerSets.length; i++) {
@@ -79,7 +78,7 @@
 						}
 					}
 				}
-				logger.log("Group: " + group.name + " (" + prefix + ", " + layerIndex + ")");
+				logger.log("Group " + group.name + " (" + prefix + ", " + layerIndex + ")");
 				// ignore empty layers
 				if (group.artLayers.length > 0) {
 					json[cardGroup.name][prefix] = {};
@@ -93,7 +92,7 @@
 					// check if its a text layer
 					result = reTextLayer.exec(layerName);
 					if (result !== null) {
-						logger.log("Layer: TEXT");
+						logger.log("Handling Text layer");
 						regionBounds = getLayerBounds(group.artLayers[j]);
 						json[cardGroup.name][prefix]["text"] = {
 							"x": regionBounds[0] - offset[0],
@@ -106,18 +105,18 @@
 					// check if its an default image layer
 					result = reDefaultLayer.exec(layerName);
 					if (result !== null) {
-						logger.log("Layer: IMAGE");
+						logger.log("Handling default image layer");
 						addImage(group.artLayers[j], prefix, json[cardGroup.name][prefix], outputPath, offset, cardGroup.name);
 						continue;
 					}
 					// check if its a clip layer
 					result = reClipLayer.exec(layerName);
 					if (result !== null && result.length >= 2) {
-						logger.log("Layer: CLIP " + result[1]);
+						logger.log("Handling Clip layer");
 						if (result[1] == "polygon") {
 							json[cardGroup.name][prefix]["clip"] = {
 								"type": result[1],
-								"points": pathPoints(cardGroup.name + "_" + prefix + "_path", offset)
+								"points": pathPoints(cardGroup.name + "_" + prefix + "_clip", offset)
 							};
 						} else {
 							// an old style clip shape
@@ -128,13 +127,14 @@
 					// check if its a path layer
 					result = rePathLayer.exec(layerName);
 					if (result !== null && result.length >= 2) {
-						logger.log("Layer: PATH " + result[1]);
-						addPath(result[1], json[cardGroup.name][prefix], offset);
+						logger.log("Handling path (curve) layer " + result[1]);
+						addSimpleCurve(result[1], json[cardGroup.name][prefix], offset);
 						continue;
 					}
 					// otherwise it must be a multi image component
-					logger.log("Layer: IMAGE " + layerName);
-					addMulti(group.artLayers[j], prefix, json[cardGroup.name][prefix], outputPath, offset, cardGroup.name);
+					logger.log("Handling mulit image group layer " + layerName);
+					addImage(group.artLayers[j], prefix, json[cardGroup.name][prefix],
+						outputPath, offset, cardGroup.name, true);
 				}
 			}
 		}
@@ -146,26 +146,24 @@
 		logger.close();
 	}
 
+	// handle a custom component and write data to json obj
 	function handleCustom(base, group, name, parentJson, out, offset, type, index, prefix) {
-		logger.log("Custom: " + base + ", " + name);
-
+		logger.log("Adding custom, " + base + " " + name);
 		var file = File(base + ".json");
 		if (!file.exists) {
-			logger.log("File not found: " + base + ".json");
+			logger.log("WARNING: File not found " + base + ".json");
+			return;
 		}
-
 		file.open("r");
 		var data = file.read();
 		file.close();
 		var json = JSON.parse(data);
-
+		// generate custom data, images & regions
 		var layers = json["custom"][name]["layers"];
 		for (var i = 0; i < group.length; i++) {
 			if (layers[group[i].name] == "image") {
-				logger.log("custom: adding image");
 				addImage(group[i], "custom_" + group[i].name, json["custom"][name], out, offset, type);
 			} else if (layers[group[i].name] == "region") {
-				logger.log("custom: adding region");
 				var regionBounds = getLayerBounds(group[i]);
 				json["custom"][name]["region"] = {
 					"x": regionBounds[0] - offset[0],
@@ -175,7 +173,7 @@
 				};
 			}
 		}
-
+		// overwrite load data with generated data
 		json["custom"][name]["name"] = name;
 		json["custom"][name]["layers"] = undefined;
 		parentJson[type][prefix] = {};
@@ -185,7 +183,7 @@
 
 	// adds font data (from external json) for text components to the json output
 	function addFont(base, cardType, component, json) {
-		logger.log("Font: " + cardType + ", " + component);
+		logger.log("Adding font, " + cardType + " " + component);
 		// open the themes json data file
 		var file = File(base + ".json");
 		if (!file.exists) {
@@ -217,6 +215,7 @@
 	// i.e. ignores curves, left/right control points
 	function pathPoints(pathName, offset) {
 		var pathItems, i, point, numPoints, points = [];
+		logger.log("Getting path points for " + pathName);
 		pathItems = app.activeDocument.pathItems;
 		for (i = 0; i < pathItems.length; i++) {
 			// only want the path with the given name
@@ -232,11 +231,16 @@
 				}
 			}
 		}
+		if (points.Length <= 0) {
+			logger.log("WARNING: path not found, " + pathName);
+		}
 		return points;
 	}
 
-	function addPath(pathName, json, offset) {
+	// adds a named path as simple bezier curve, to be used for text to follow
+	function addSimpleCurve(pathName, json, offset) {
 		var pathItems, i, point, numPoints;
+		logger.log("Adding curve " + pathName);
 		// look for title path
 		pathItems = app.activeDocument.pathItems;
 		for (i = 0; i < pathItems.length; i++) {
@@ -272,67 +276,50 @@
 		}
 	}
 
-	function addImage(layer, prefix, json, out, offset, typeName) {
-			var imageName = prefix + fileExt;
-			var file = new File(out + "/" + imageName);
-
-			logger.log("handle: " + layer + ", " + prefix + ", " + out + ", " + offset)
-			if (!config.jsonOnly) {
-				var tempDoc = app.documents.add(doc.width, doc.height, doc.resolution,
-					"trim", NewDocumentMode.RGB, DocumentFill.TRANSPARENT);
-				app.activeDocument = doc;
-				var trimLayer = layer.duplicate(tempDoc, ElementPlacement.PLACEATBEGINNING);
-				app.activeDocument = tempDoc;
-				tempDoc.trim(TrimType.TRANSPARENT);
-				tempDoc.exportDocument(file, ExportType.SAVEFORWEB, pngOpts);
-			}
-
+	// process an image layer and store its attributes in json obj
+	function addImage(layer, prefix, json, out, offset, typeName, multi) {
+		var imageName;
+		if (multi) {
+			imageName = prefix + "_" + layer.name + fileExt;
+		} else {
+			imageName = prefix + fileExt;
+		}
+		logger.log("Adding image " + imageName + ", (Multi:" + multi + ")");
+		var file = new File(out + "/" + imageName);
+		// handle the image layer, if enabled
+		if (!config.jsonOnly) {
+			var tempDoc = app.documents.add(doc.width, doc.height, doc.resolution,
+				"trim", NewDocumentMode.RGB, DocumentFill.TRANSPARENT);
+			app.activeDocument = doc;
+			var trimLayer = layer.duplicate(tempDoc, ElementPlacement.PLACEATBEGINNING);
+			app.activeDocument = tempDoc;
+			tempDoc.trim(TrimType.TRANSPARENT);
+			tempDoc.exportDocument(file, ExportType.SAVEFORWEB, pngOpts);
+		}
+		// initialize the obj if doesn't exist
+		if (json["image"] === undefined) {
 			json["image"] = {};
+			// for multi images expect them all to be the same size
 			var bounds = getLayerBounds(layer);
 			json["image"]["x"] = bounds[0] - offset[0];
 			json["image"]["y"] = bounds[1] - offset[1];
 			json["image"]["width"] = bounds[2] - bounds[0];
 			json["image"]["height"] = bounds[3] - bounds[1];
-			json["image"]["assets"] = { "default": typeName + "/" + imageName };
-
-			if (!config.jsonOnly) {
-				app.activeDocument = doc;
-				tempDoc.close(SaveOptions.DONOTSAVECHANGES);
+			if (multi) {
+					json["image"]["assets"] = {};
+			} else {
+				json["image"]["assets"] = { "default": typeName + "/" + imageName };
 			}
-	}
-
-	function addMulti(layer, prefix, json, out, offset, typeName) {
-			var imageName = prefix + "_" + layer.name + fileExt;
-			var file = new File(out + "/" + imageName);
-
-			logger.log("handle: " + layer + ", " + prefix + ", " + out + ", " + offset)
-			if (!config.jsonOnly) {
-				var tempDoc = app.documents.add(doc.width, doc.height, doc.resolution,
-					"trim", NewDocumentMode.RGB, DocumentFill.TRANSPARENT);
-				app.activeDocument = doc;
-				var trimLayer = layer.duplicate(tempDoc, ElementPlacement.PLACEATBEGINNING);
-				app.activeDocument = tempDoc;
-				tempDoc.trim(TrimType.TRANSPARENT);
-				tempDoc.exportDocument(file, ExportType.SAVEFORWEB, pngOpts);
-			}
-
-			// all images should be the same size, so record the first one's dimensions
-			if (json["image"] === undefined) {
-				json["image"] = {};
-				var bounds = getLayerBounds(layer);
-				json["image"]["x"] = bounds[0] - offset[0];
-				json["image"]["y"] = bounds[1] - offset[1];
-				json["image"]["width"] = bounds[2] - bounds[0];
-				json["image"]["height"] = bounds[3] - bounds[1];
-				json["image"]["assets"] = {};
-			}
-			// record the names and filenames of the images in dict
+		}
+		// add each image of multi set on each call, store as name, filename
+		if (multi) {
 			json["image"]["assets"][layer.name] = typeName + "/" + imageName;
-
-			if (!config.jsonOnly) {
-				app.activeDocument = doc;
-				tempDoc.close(SaveOptions.DONOTSAVECHANGES);
-			}
+		}
+		// save the image if enabled
+		if (!config.jsonOnly) {
+			app.activeDocument = doc;
+			tempDoc.close(SaveOptions.DONOTSAVECHANGES);
+		}
 	}
 
 	// create a PNG options object for saving images
@@ -359,7 +346,10 @@
 
 	// write text to a file
 	function writeTextToFile(filename, text) {
+		logger.log("Writing to " + filename);
 		var f = File(filename);
+		f.lineFeed = "Unix";
+		f.encoding = "UTF-8";
 		f.open("w");
 		f.writeln(text);
 		f.close();
@@ -367,6 +357,10 @@
 
 	// make a directory if it doesn't exist
 	function mkdir(dir) {
+		if (config.jsonOnly) {
+			logger.log("Skipping mkdir (" + dir + ")");
+			return;
+		}
 		var folder = Folder(dir);
 		if (!folder.exists) {
 			logger.log("Creating folder: " + dir)
@@ -390,6 +384,7 @@
 
 	// load a config file
 	function loadConfig(filename) {
+		logger.log("Loading config: " + filename);
 		var file = new File(filename);
 		file.open("r");
 		var data = file.read();
