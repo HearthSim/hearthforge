@@ -32,7 +32,13 @@
 		basePath = app.activeDocument.path + "/" + baseName;
 		mkdir(basePath);
 		jsonFile = basePath + "/data.json";
-		json = { "name": baseName };
+		// use the cardCrop in the config (different for each theme)
+		// to set the required card dimensions, based on the original assets.
+		// (x, y) is the top left coord and is the offset to adjust for.
+		crop = config.cardCrop[baseName];
+		// add new json object, with (w, h) to use
+		json = { "name": baseName, "width": crop.width, "height": crop.height };
+		offset = [crop.x, crop.y];
 		// walk the layer group hierarchy
 		// top level groups - card types (separate premium and all variants)
 		excludeJump:
@@ -45,19 +51,10 @@
 					continue excludeJump; // jump out of this inner loop
 				}
 			}
+			json[cardGroup.name] = {};
 			// create output dir
 			outputPath = basePath + "/" +  cardGroup.name
 			mkdir(outputPath);
-			// use the cardCrop in the config (different for each theme)
-			// to set the required card dimensions, based on the original assets.
-			// (x, y) is the top left coord and is the offset to adjust for.
-			crop = config.cardCrop[baseName];
-			offset = [crop.x, crop.y];
-			// add new json object, with (w, h) to use
-			json[cardGroup.name] = {
-				"width": crop.width,
-				"height": crop.height
-			};
 			// handle components, defined as groups
 			for (i = 0; i < cardGroup.layerSets.length; i++) {
 				prefix = "", layerIndex = 0;
@@ -215,7 +212,7 @@
 	// i.e. ignores curves, left/right control points
 	function pathPoints(pathName, offset) {
 		var pathItems, i, point, numPoints, points = [];
-		logger.log("Getting path points for " + pathName);
+		logger.log("Getting path points for " + pathName + ", with offset " + offset);
 		pathItems = app.activeDocument.pathItems;
 		for (i = 0; i < pathItems.length; i++) {
 			// only want the path with the given name
@@ -231,7 +228,7 @@
 				}
 			}
 		}
-		if (points.Length <= 0) {
+		if (points.length <= 0) {
 			logger.log("WARNING: path not found, " + pathName);
 		}
 		return points;
@@ -279,7 +276,7 @@
 	// process an image layer and store its attributes in json obj
 	function addImage(layer, prefix, json, out, offset, typeName, multi) {
 		var imageName;
-		if (multi) {
+		if (multi !== undefined) {
 			imageName = prefix + "_" + layer.name + fileExt;
 		} else {
 			imageName = prefix + fileExt;
