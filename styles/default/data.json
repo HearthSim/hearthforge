@@ -1,8 +1,8 @@
 {
 	"name": "default",
+	"width": 670,
+	"height": 1000,
 	"minion": {
-		"width": 670,
-		"height": 1000,
 		"elite": {
 			"layer": 6,
 			"image": {
@@ -191,7 +191,7 @@
 				}
 			}
 		},
-		"cardSet": {
+		"custom": {
 			"layer": 3,
 			"custom": {
 				"setIcons": "sets",
@@ -353,8 +353,6 @@
 		}
 	},
 	"minion_premium": {
-		"width": 670,
-		"height": 1000,
 		"elite": {
 			"layer": 8,
 			"image": {
@@ -555,7 +553,7 @@
 				}
 			}
 		},
-		"cardSet": {
+		"custom": {
 			"layer": 3,
 			"custom": {
 				"setIcons": "sets",
@@ -711,8 +709,6 @@
 		}
 	},
 	"spell": {
-		"width": 670,
-		"height": 1000,
 		"cost": {
 			"layer": 6,
 			"font": {
@@ -803,7 +799,7 @@
 				"height": 160
 			}
 		},
-		"cardSet": {
+		"custom": {
 			"layer": 3,
 			"custom": {
 				"setIcons": "sets",
@@ -935,8 +931,6 @@
 		}
 	},
 	"spell_premium": {
-		"width": 670,
-		"height": 1000,
 		"cost": {
 			"layer": 5,
 			"font": {
@@ -1027,7 +1021,7 @@
 				}
 			}
 		},
-		"cardSet": {
+		"custom": {
 			"layer": 3,
 			"custom": {
 				"setIcons": "sets",
@@ -1162,8 +1156,6 @@
 		}
 	},
 	"weapon": {
-		"width": 670,
-		"height": 1000,
 		"cost": {
 			"layer": 7,
 			"font": {
@@ -1302,7 +1294,7 @@
 				"height": 172
 			}
 		},
-		"cardSet": {
+		"custom": {
 			"layer": 3,
 			"custom": {
 				"setIcons": "sets",
@@ -1464,8 +1456,6 @@
 		}
 	},
 	"weapon_premium": {
-		"width": 670,
-		"height": 1000,
 		"cost": {
 			"layer": 8,
 			"font": {
@@ -1604,7 +1594,7 @@
 				"height": 172
 			}
 		},
-		"cardSet": {
+		"custom": {
 			"layer": 4,
 			"custom": {
 				"setIcons": "sets",
@@ -1766,8 +1756,6 @@
 		}
 	},
 	"hero_power": {
-		"width": 670,
-		"height": 1000,
 		"cost": {
 			"layer": 2,
 			"font": {
@@ -1886,8 +1874,6 @@
 		}
 	},
 	"hero_power_premium": {
-		"width": 670,
-		"height": 1000,
 		"cost": {
 			"layer": 2,
 			"font": {
