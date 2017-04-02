@@ -16,22 +16,23 @@
 	var fileExt = ".png";
 	var logger = createLog("decompose.log");
 	var config = loadConfig("decompose.cfg");
-	var jsonFile, outputPath, baseName;
+	var reGroupName = /(\d+)\s+(\w+)\s*(\w+)?/;
+	var reTextLayer = /^text/;
+	var reDefaultLayer = /^default/;
+	var reClipLayer = /^clip\s+(\w+)/;
+	var rePathLayer = /^path\s+(\w+)/;
+	var jsonFile, baseName, basePath, offset;
 
 	function main() {
-		var reGroupName = /(\d+)\s+(\w+)\s*(\w+)?/;
-		var reTextLayer = /^text/;
-		var reDefaultLayer = /^default/;
-		var reClipLayer = /^clip\s+(\w+)/;
-		var rePathLayer = /^path\s+(\w+)/;
-		var offset, json, group, layer, prefix, result, layerIndex,cardGroup,
-			i, j, k, l, q, regionBounds, point, pathItems, layerName, basePath, crop;
+		var json, layer, cardGroup, crop,
+			i, j, k, l, q, p, regionBounds, point, pathItems, layerName;
 
 		// init json and file names
 		baseName = doc.name.substring(0, doc.name.length - 4);
 		basePath = app.activeDocument.path + "/" + baseName;
 		mkdir(basePath);
 		jsonFile = basePath + "/data.json";
+		logger.log("Processing " + doc.name);
 		// use the cardCrop in the config (different for each theme)
 		// to set the required card dimensions, based on the original assets.
 		// (x, y) is the top left coord and is the offset to adjust for.
@@ -41,99 +42,37 @@
 		offset = [crop.x, crop.y];
 		// walk the layer group hierarchy
 		// top level groups - card types (separate premium and all variants)
-		excludeJump:
-		for (l = 0; l < doc.layerSets.length; l++) {
-			// set the name and output dir for this card type
-			cardGroup = doc.layerSets[l];
-			// check the configs excluded list for the current card type
-			for (q = 0; q < config.exclude.length; q++) {
-				if (config.exclude[q] == cardGroup.name) {
-					continue excludeJump; // jump out of this inner loop
+
+		// get all top level group names first
+		var defaultType, includedTypes = [];
+		for (p = 0; p < doc.layerSets.length; p++) {
+			// if there is a default type set it
+			if (doc.layerSets[p].name === "default") {
+				defaultType = doc.layerSets[p];
+				continue;
+			}
+			// include only types not in the exclude list
+			if (config.exclude.length <= 0) {
+				includedTypes.push(doc.layerSets[p]);
+			} else {
+				for (q = 0; q < config.exclude.length; q++) {
+					if (doc.layerSets[p].name !== config.exclude[q]) {
+						logger.log("including " + doc.layerSets[p].name);
+						includedTypes.push(doc.layerSets[p]);
+					}
 				}
 			}
+		}
+		// if there is a default type defined use it as a base for other types
+		var defaultJson = {};
+		if (defaultType !== undefined) {
+
+		}
+
+		for (l = 0; l < includedTypes.length; l++) {
+			cardGroup = includedTypes[l];
 			json[cardGroup.name] = {};
-			// create output dir
-			outputPath = basePath + "/" +  cardGroup.name
-			mkdir(outputPath);
-			// handle components, defined as groups
-			for (i = 0; i < cardGroup.layerSets.length; i++) {
-				prefix = "", layerIndex = 0;
-				group = cardGroup.layerSets[i];
-				// ignore certain groups
-				if (group.name === "IGNORE" || group.name === "BACKGROUND")
-					continue;
-				// parse the group names
-				result = reGroupName.exec(group.name);
-				if (result !== null && result.length >= 1) {
-					layerIndex = parseInt(result[0], 10);
-					if (result.length >= 2) {
-						prefix = result[2];
-						// check for a custom group, handle differently to normal
-						if (result.length >= 3 && result[3] !== undefined) {
-							handleCustom(baseName, group.artLayers, result[3], json, outputPath, offset, cardGroup.name, layerIndex, prefix);
-							continue;
-						}
-					}
-				}
-				logger.log("Group " + group.name + " (" + prefix + ", " + layerIndex + ")");
-				// ignore empty layers
-				if (group.artLayers.length > 0) {
-					json[cardGroup.name][prefix] = {};
-					json[cardGroup.name][prefix]["layer"] = layerIndex;
-					// add the font obj if it exists
-					addFont(baseName, cardGroup.name, prefix, json[cardGroup.name][prefix]);
-				}
-				// handle any regular layers in the group
-				for (j = 0; j < group.artLayers.length; j++) {
-					layerName = group.artLayers[j].name;
-					// check if its a text layer
-					result = reTextLayer.exec(layerName);
-					if (result !== null) {
-						logger.log("Handling Text layer");
-						regionBounds = getLayerBounds(group.artLayers[j]);
-						json[cardGroup.name][prefix]["text"] = {
-							"x": regionBounds[0] - offset[0],
-							"y": regionBounds[1] - offset[1],
-							"width": regionBounds[2] - regionBounds[0],
-							"height": regionBounds[3] - regionBounds[1]
-						};
-						continue;
-					}
-					// check if its an default image layer
-					result = reDefaultLayer.exec(layerName);
-					if (result !== null) {
-						logger.log("Handling default image layer");
-						addImage(group.artLayers[j], prefix, json[cardGroup.name][prefix], outputPath, offset, cardGroup.name);
-						continue;
-					}
-					// check if its a clip layer
-					result = reClipLayer.exec(layerName);
-					if (result !== null && result.length >= 2) {
-						logger.log("Handling Clip layer");
-						if (result[1] == "polygon") {
-							json[cardGroup.name][prefix]["clip"] = {
-								"type": result[1],
-								"points": pathPoints(cardGroup.name + "_" + prefix + "_clip", offset)
-							};
-						} else {
-							// an old style clip shape
-							logger.log("WARNING: Unknown clip type, " + result[1]);
-						}
-						continue;
-					}
-					// check if its a path layer
-					result = rePathLayer.exec(layerName);
-					if (result !== null && result.length >= 2) {
-						logger.log("Handling path (curve) layer " + result[1]);
-						addSimpleCurve(result[1], json[cardGroup.name][prefix], offset);
-						continue;
-					}
-					// otherwise it must be a multi image component
-					logger.log("Handling mulit image group layer " + layerName);
-					addImage(group.artLayers[j], prefix, json[cardGroup.name][prefix],
-						outputPath, offset, cardGroup.name, true);
-				}
-			}
+			processType(cardGroup, json);
 		}
 		// save the json to file
 		logger.log("Creating json");
@@ -141,6 +80,126 @@
 		writeTextToFile(jsonFile, text);
 		alert("Decomposition Complete.");
 		logger.close();
+	}
+
+	function processType(cardGroup, json) {
+		var i, j, outputPath, prefix, layerIndex, group, result;
+		// set the output dir for this card type
+		outputPath = basePath + "/" +  cardGroup.name
+		mkdir(outputPath);
+		// handle components, defined as groups
+		for (i = 0; i < cardGroup.layerSets.length; i++) {
+			prefix = "", layerIndex = 0;
+			group = cardGroup.layerSets[i];
+			// ignore certain groups
+			if (group.name === "IGNORE" || group.name === "BACKGROUND")
+				continue;
+			// parse the group names
+			result = reGroupName.exec(group.name);
+			if (result !== null && result.length >= 1) {
+				layerIndex = parseInt(result[0], 10);
+				if (result.length >= 2) {
+					prefix = result[2];
+					// check for a custom group, handle differently to normal
+					if (result.length >= 3 && result[3] !== undefined) {
+						handleCustom(baseName, group.artLayers, result[3], json, outputPath, offset, cardGroup.name, layerIndex, prefix);
+						continue;
+					}
+				}
+			}
+			logger.log("Group " + group.name + " (" + prefix + ", " + layerIndex + ")");
+			// ignore empty layers
+			if (group.artLayers.length > 0) {
+				json[cardGroup.name][prefix] = {};
+				json[cardGroup.name][prefix]["layer"] = layerIndex;
+				// add the font obj if it exists
+				addFont(baseName, cardGroup.name, prefix, json[cardGroup.name][prefix]);
+			}
+			// handle any regular layers in the group
+			for (j = 0; j < group.artLayers.length; j++) {
+				layer  = group.artLayers[j];
+				if (processText(layer.name, layer, json[cardGroup.name][prefix]))
+					continue;
+				else if (processDefaultImage(cardGroup.name, layer.name, prefix, layer, json[cardGroup.name][prefix], outputPath))
+					continue;
+				else if (processClip(cardGroup.name, layer.name, prefix, json[cardGroup.name][prefix]))
+					continue;
+				else if (processCurve(layer.name, json[cardGroup.name][prefix]))
+					continue;
+				else
+					processMultiImage(cardGroup.name, layer.name, prefix, layer, json[cardGroup.name][prefix], outputPath);
+			}
+		}
+	}
+
+	// check if its a 'Text' layer and handle it
+	function processText(layerName, layer, json) {
+		var success = false,
+			result = reTextLayer.exec(layerName),
+			regionBounds;
+
+		if (result !== null) {
+			logger.log("Handling Text layer (" + layerName + ")");
+			regionBounds = getLayerBounds(layer);
+			json["text"] = {
+				"x": regionBounds[0] - offset[0],
+				"y": regionBounds[1] - offset[1],
+				"width": regionBounds[2] - regionBounds[0],
+				"height": regionBounds[3] - regionBounds[1]
+			};
+			success = true;
+		}
+		return success;
+	}
+
+	// check if its a single 'Default' layer
+	function processDefaultImage(groupName, layerName, prefix, layer, json, output) {
+		var success = false,
+			result = reDefaultLayer.exec(layerName);
+		if (result !== null) {
+			logger.log("Handling default image layer (" + layerName + ")");
+			addImage(layer, prefix, json, output, offset, groupName);
+			success = true;
+		}
+		return success;
+	}
+
+	// check if its a clipping layer, will try to find a matching path
+	function processClip(groupName, layerName, prefix, json) {
+		var success = false,
+			result = reClipLayer.exec(layerName);
+		if (result !== null && result.length >= 2) {
+			logger.log("Handling Clip layer (" + layerName + ")");
+			if (result[1] == "polygon") {
+				json["clip"] = {
+					"type": result[1],
+					"points": pathPoints(groupName + "_" + prefix + "_clip", offset)
+				};
+			} else {
+				// an old style clip shape
+				logger.log("WARNING: Unknown clip type, " + result[1]);
+			}
+			success = true; // well it matched at least, so don't match anything else
+		}
+		return success;
+	}
+
+	// check if its a simple Bezier curve
+	function processCurve(layerName, json) {
+		var success = false,
+			result = rePathLayer.exec(layerName);
+		if (result !== null && result.length >= 2) {
+			logger.log("Handling path (curve) layer: " + result[1]);
+			addSimpleCurve(result[1], json, offset);
+			success = true;
+		}
+		return success;
+	}
+
+	// handle a multi image layer group
+	function processMultiImage(groupName, layerName, prefix, layer, json, output) {
+		logger.log("Handling mulit image group layer (" + layerName + ")");
+		addImage(layer, prefix, json, output, offset, groupName, true);
 	}
 
 	// handle a custom component and write data to json obj
@@ -390,4 +449,4 @@
 	}
 
 	main();
-}());
+})();
