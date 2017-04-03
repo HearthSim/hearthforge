@@ -14,6 +14,7 @@
 	var doc = app.activeDocument;
 	var pngOpts = pngOptions();
 	var fileExt = ".png";
+	var defaultTypeName = "default";
 	var logger = createLog("decompose.log");
 	var config = loadConfig("decompose.cfg");
 	var reGroupName = /(\d+)\s+(\w+)\s*(\w+)?/;
@@ -47,7 +48,7 @@
 		var defaultType, includedTypes = [];
 		for (p = 0; p < doc.layerSets.length; p++) {
 			// if there is a default type set it
-			if (doc.layerSets[p].name === "default") {
+			if (doc.layerSets[p].name === defaultTypeName) {
 				defaultType = doc.layerSets[p];
 				continue;
 			}
@@ -65,13 +66,18 @@
 		}
 		// if there is a default type defined use it as a base for other types
 		var defaultJson = {};
+		defaultJson[defaultTypeName] = {};
 		if (defaultType !== undefined) {
-
+			processType(defaultType, defaultJson);
 		}
 
 		for (l = 0; l < includedTypes.length; l++) {
 			cardGroup = includedTypes[l];
 			json[cardGroup.name] = {};
+			// if there is a default type, use it as the base data
+			if (defaultType !== undefined) {
+				json[cardGroup.name] = clone(defaultJson[defaultTypeName]);
+			}
 			processType(cardGroup, json);
 		}
 		// save the json to file
@@ -446,6 +452,11 @@
 		var data = file.read();
 		file.close();
 		return JSON.parse(data);
+	}
+
+	// clone an object
+	function clone(obj) {
+		return JSON.parse(JSON.stringify(obj))
 	}
 
 	main();
