@@ -15,6 +15,7 @@
 	var pngOpts = pngOptions();
 	var fileExt = ".png";
 	var defaultTypeName = "default";
+	var defaultImageLayer = "default";
 	var logger = createLog("decompose.log");
 	var config = loadConfig("decompose.cfg");
 	var reGroupName = /(\d+)\s+(\w+)\s*(\w+)?/;
@@ -70,7 +71,7 @@
 		if (defaultType !== undefined) {
 			processType(defaultType, defaultJson);
 		}
-
+		// process all other included layers, overwriting the default if applicable
 		for (l = 0; l < includedTypes.length; l++) {
 			cardGroup = includedTypes[l];
 			json[cardGroup.name] = {};
@@ -89,7 +90,7 @@
 	}
 
 	function processType(cardGroup, json) {
-		var i, j, outputPath, prefix, layerIndex, group, result;
+		var i, j, outputPath, prefix, layerIndex, group, result, imageName;
 		// set the output dir for this card type
 		outputPath = basePath + "/" +  cardGroup.name
 		mkdir(outputPath);
@@ -126,14 +127,18 @@
 				layer  = group.artLayers[j];
 				if (processText(layer.name, layer, json[cardGroup.name][prefix]))
 					continue;
-				else if (processDefaultImage(cardGroup.name, layer.name, prefix, layer, json[cardGroup.name][prefix], outputPath))
+				else if (processImage(cardGroup.name, layer.name, prefix, layer, json[cardGroup.name][prefix], outputPath))
 					continue;
 				else if (processClip(cardGroup.name, layer.name, prefix, json[cardGroup.name][prefix]))
 					continue;
 				else if (processCurve(layer.name, json[cardGroup.name][prefix]))
 					continue;
 				else
-					processMultiImage(cardGroup.name, layer.name, prefix, layer, json[cardGroup.name][prefix], outputPath);
+				{
+					// it is assumed to be a multi image group
+					imageName = prefix + "_" + layer.name + fileExt;
+					handleImage(layer, imageName, cardGroup.name, outputPath,  json[cardGroup.name][prefix]);
+				}
 			}
 		}
 	}
@@ -159,14 +164,14 @@
 	}
 
 	// check if its a single 'Default' layer
-	function processDefaultImage(groupName, layerName, prefix, layer, json, output) {
-		var success = false,
+	function processImage(groupName, layerName, prefix, layer, json, output) {
+		var imageName, success = false,
 			result = reDefaultLayer.exec(layerName);
 		if (result !== null) {
-			logger.log("Handling default image layer (" + layerName + ")");
-			addImage(layer, prefix, json, output, offset, groupName);
+			handleImage(layer, prefix + fileExt, groupName, output, json);
 			success = true;
 		}
+
 		return success;
 	}
 
@@ -200,12 +205,6 @@
 			success = true;
 		}
 		return success;
-	}
-
-	// handle a multi image layer group
-	function processMultiImage(groupName, layerName, prefix, layer, json, output) {
-		logger.log("Handling mulit image group layer (" + layerName + ")");
-		addImage(layer, prefix, json, output, offset, groupName, true);
 	}
 
 	// handle a custom component and write data to json obj
@@ -338,17 +337,17 @@
 		}
 	}
 
-	// process an image layer and store its attributes in json obj
-	function addImage(layer, prefix, json, out, offset, typeName, multi) {
-		var imageName;
-		if (multi !== undefined) {
-			imageName = prefix + "_" + layer.name + fileExt;
-		} else {
-			imageName = prefix + fileExt;
-		}
-		logger.log("Adding image " + imageName + ", (Multi:" + multi + ")");
-		var file = new File(out + "/" + imageName);
-		// handle the image layer, if enabled
+	// use the layer bounds to calc (x, y, w, h) and add to json obj
+	function addImageData(layer, json) {
+		var bounds = getLayerBounds(layer);
+		json["image"]["x"] = bounds[0] - offset[0];
+		json["image"]["y"] = bounds[1] - offset[1];
+		json["image"]["width"] = bounds[2] - bounds[0];
+		json["image"]["height"] = bounds[3] - bounds[1];
+	}
+
+	// trim the layer and save the image to file
+	function addImageAsset(layer, file) {
 		if (!config.jsonOnly) {
 			var tempDoc = app.documents.add(doc.width, doc.height, doc.resolution,
 				"trim", NewDocumentMode.RGB, DocumentFill.TRANSPARENT);
@@ -357,30 +356,35 @@
 			app.activeDocument = tempDoc;
 			tempDoc.trim(TrimType.TRANSPARENT);
 			tempDoc.exportDocument(file, ExportType.SAVEFORWEB, pngOpts);
-		}
-		// initialize the obj if doesn't exist
-		if (json["image"] === undefined) {
-			json["image"] = {};
-			// for multi images expect them all to be the same size
-			var bounds = getLayerBounds(layer);
-			json["image"]["x"] = bounds[0] - offset[0];
-			json["image"]["y"] = bounds[1] - offset[1];
-			json["image"]["width"] = bounds[2] - bounds[0];
-			json["image"]["height"] = bounds[3] - bounds[1];
-			if (multi) {
-					json["image"]["assets"] = {};
-			} else {
-				json["image"]["assets"] = { "default": typeName + "/" + imageName };
-			}
-		}
-		// add each image of multi set on each call, store as name, filename
-		if (multi) {
-			json["image"]["assets"][layer.name] = typeName + "/" + imageName;
-		}
-		// save the image if enabled
-		if (!config.jsonOnly) {
 			app.activeDocument = doc;
 			tempDoc.close(SaveOptions.DONOTSAVECHANGES);
+		}
+	}
+
+	function handleImage(layer, imageName, typeName, outDir, json) {
+		var defaultAssetName,
+			file = new File(outDir + "/" + imageName);
+		logger.log("Handling image layer (" + layer.name + ")");
+		if (json["image"] === undefined) {
+			logger.log("Initializing json obj for image " + imageName);
+			json["image"] = {};
+			json["image"]["assets"] = {};
+			json["image"]["assets"][layer.name] = typeName + "/" + imageName;
+			addImageData(layer, json);
+			addImageAsset(layer, file);
+		} else {
+			// the obj could be a multi image group or inherits from base type
+			defaultAssetName = defaultTypeName + "/" + imageName;
+			if (json["image"]["assets"][layer.name] === defaultAssetName) {
+				// don't write a new image, just image data (assume it exists)
+				logger.log("Overwriting image data for " + imageName);
+				addImageData(layer, json);
+			} else {
+				// must be a multi image group, just write the image
+				logger.log("Add image asset part of multi group, " + imageName);
+				json["image"]["assets"][layer.name] = typeName + "/" + imageName;
+				addImageAsset(layer, file);
+			}
 		}
 	}
 
