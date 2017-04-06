@@ -16,6 +16,7 @@
 	var fileExt = ".png";
 	var defaultTypeName = "default";
 	var defaultImageLayer = "default";
+	var disabledLabel = "disabled";
 	var logger = createLog("decompose.log");
 	var config = loadConfig("decompose.cfg");
 	var reGroupName = /(\d+)\s+(\w+)\s*(\w+)?/;
@@ -103,13 +104,18 @@
 				continue;
 			// parse the group names
 			result = reGroupName.exec(group.name);
-			if (result !== null && result.length >= 1) {
-				layerIndex = parseInt(result[0], 10);
-				if (result.length >= 2) {
+			if (result !== null && result.length > 1) {
+				layerIndex = parseInt(result[1], 10);
+				if (result.length > 2) {
 					prefix = result[2];
 					// check for a custom group, handle differently to normal
-					if (result.length >= 3 && result[3] !== undefined) {
-						handleCustom(baseName, group.artLayers, result[3], json, outputPath, offset, cardGroup.name, layerIndex, prefix);
+					if (result.length > 3 && result[3] !== undefined) {
+						if (result[3] === disabledLabel) {
+							// if the group is marked as diabled, clear any inherited base properties
+							json[cardGroup.name][prefix] = undefined;
+						} else {
+							handleCustom(baseName, group.artLayers, result[3], json, outputPath, offset, cardGroup.name, layerIndex, prefix);
+						}
 						continue;
 					}
 				}
