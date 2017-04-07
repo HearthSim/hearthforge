@@ -229,7 +229,7 @@
 		var layers = json["custom"][name]["layers"];
 		for (var i = 0; i < group.length; i++) {
 			if (layers[group[i].name] == "image") {
-				addImage(group[i], "custom_" + group[i].name, json["custom"][name], out, offset, type);
+				handleImage(group[i], "custom_" + group[i].name + fileExt, type, out, json["custom"][name]);
 			} else if (layers[group[i].name] == "region") {
 				var regionBounds = getLayerBounds(group[i]);
 				json["custom"][name]["region"] = {
