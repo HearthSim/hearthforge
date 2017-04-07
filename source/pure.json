@@ -1,0 +1,47 @@
+{
+	"custom": {
+		"set_rarity_svg": {
+			"setIcons": "sets",
+			"layers": {
+				"icon": "region"
+			}
+		}
+	},
+	"text": {
+		"default": {
+			"cost": {
+				"color": "#50b3ff",
+				"family": "Lato",
+				"size": 60
+			},
+			"health": {
+				"color": "#7cc576",
+				"family": "Lato",
+				"size": 46
+			},
+			"attack": {
+				"color": "#ffff00",
+				"family": "Lato",
+				"size": 46
+			},
+			"name": {
+				"type": "textBlock",
+				"color": "#FFFFFF",
+				"family": "Raleway Medium",
+				"size": 44
+			},
+			"race": {
+				"color": "#FFFFFF",
+				"family": "Raleway",
+				"size": 26,
+				"case": "upper"
+			},
+			"description": {
+				"type": "textBlock",
+				"color": "#FFFFFF",
+				"family": "Raleway",
+				"size": 26
+			}
+		}
+	}
+}
