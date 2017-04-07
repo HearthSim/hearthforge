@@ -17,6 +17,7 @@
 	var defaultTypeName = "default";
 	var defaultImageLayer = "default";
 	var disabledLabel = "disabled";
+	var noSaveLabel = "nosave";
 	var logger = createLog("decompose.log");
 	var config = loadConfig("decompose.cfg");
 	var reGroupName = /(\d+)\s+(\w+)\s*(\w+)?/;
@@ -84,7 +85,7 @@
 		}
 		// save the json to file
 		logger.log("Creating json");
-		var text = JSON.stringify(json);
+		var text = JSON.stringify(json, null, 4);
 		writeTextToFile(jsonFile, text);
 		alert("Decomposition Complete.");
 		logger.close();
@@ -177,7 +178,6 @@
 			handleImage(layer, prefix + fileExt, groupName, output, json);
 			success = true;
 		}
-
 		return success;
 	}
 
@@ -369,15 +369,18 @@
 
 	function handleImage(layer, imageName, typeName, outDir, json) {
 		var defaultAssetName,
+			writeFile = layer.name !== noSaveLabel,
 			file = new File(outDir + "/" + imageName);
 		logger.log("Handling image layer (" + layer.name + ")");
 		if (json["image"] === undefined) {
 			logger.log("Initializing json obj for image " + imageName);
 			json["image"] = {};
 			json["image"]["assets"] = {};
-			json["image"]["assets"][layer.name] = typeName + "/" + imageName;
+			if (writeFile) {
+				json["image"]["assets"][layer.name] = typeName + "/" + imageName;
+				addImageAsset(layer, file);
+			}
 			addImageData(layer, json);
-			addImageAsset(layer, file);
 		} else {
 			// the obj could be a multi image group or inherits from base type
 			defaultAssetName = defaultTypeName + "/" + imageName;
@@ -385,7 +388,7 @@
 				// don't write a new image, just image data (assume it exists)
 				logger.log("Overwriting image data for " + imageName);
 				addImageData(layer, json);
-			} else {
+			} else if (writeFile) {
 				// must be a multi image group, just write the image
 				logger.log("Add image asset part of multi group, " + imageName);
 				json["image"]["assets"][layer.name] = typeName + "/" + imageName;
