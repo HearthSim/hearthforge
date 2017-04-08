@@ -99,6 +99,12 @@
         },
         "classDecoration": {
             "layer": 3,
+            "font": {
+                "color": "#FFFFFF",
+                "family": "Raleway",
+                "size": 26,
+                "case": "upper"
+            },
             "image": {
                 "assets": {
                     "warlock": "default/classDecoration_warlock.png",
@@ -337,6 +343,12 @@
         },
         "classDecoration": {
             "layer": 3,
+            "font": {
+                "color": "#FFFFFF",
+                "family": "Raleway",
+                "size": 26,
+                "case": "upper"
+            },
             "image": {
                 "assets": {
                     "warlock": "default/classDecoration_warlock.png",
@@ -514,6 +526,12 @@
         },
         "classDecoration": {
             "layer": 3,
+            "font": {
+                "color": "#FFFFFF",
+                "family": "Raleway",
+                "size": 26,
+                "case": "upper"
+            },
             "image": {
                 "assets": {
                     "warlock": "default/classDecoration_warlock.png",
@@ -635,6 +653,213 @@
                     {
                         "x": 19,
                         "y": 642
+                    }
+                ]
+            }
+        }
+    },
+    "hero": {
+        "classDecoration": {
+            "layer": 1,
+            "font": {
+                "color": "#FFFFFF",
+                "family": "Raleway",
+                "size": 26,
+                "case": "upper"
+            },
+            "text": {
+                "x": 139,
+                "y": 602,
+                "width": 200,
+                "height": 20
+            },
+            "image": {
+                "assets": {
+                    "warrior": "hero/classDecoration_warrior.png",
+                    "hunter": "hero/classDecoration_hunter.png",
+                    "shaman": "hero/classDecoration_shaman.png",
+                    "paladin": "hero/classDecoration_paladin.png",
+                    "druid": "hero/classDecoration_druid.png",
+                    "warlock": "hero/classDecoration_warlock.png",
+                    "priest": "hero/classDecoration_priest.png",
+                    "mage": "hero/classDecoration_mage.png",
+                    "rogue": "hero/classDecoration_rogue.png"
+                },
+                "x": 19,
+                "y": 333,
+                "width": 440,
+                "height": 309
+            }
+        },
+        "name": {
+            "layer": 3,
+            "font": {
+                "type": "textBlock",
+                "color": "#FFFFFF",
+                "family": "Raleway Medium",
+                "size": 44,
+                "case": "upper"
+            },
+            "text": {
+                "x": 39,
+                "y": 492,
+                "width": 400,
+                "height": 90
+            }
+        },
+        "base": {
+            "layer": 2,
+            "image": {
+                "assets": {
+                    "default": "hero/base.png"
+                },
+                "x": 17,
+                "y": 20,
+                "width": 444,
+                "height": 624
+            }
+        },
+        "portrait": {
+            "layer": 0,
+            "image": {
+                "assets": {
+                    
+                },
+                "x": -17,
+                "y": 14,
+                "width": 512,
+                "height": 512
+            },
+            "clip": {
+                "type": "polygon",
+                "points": [
+                    {
+                        "x": 459,
+                        "y": 642
+                    },
+                    {
+                        "x": 19,
+                        "y": 642
+                    },
+                    {
+                        "x": 19,
+                        "y": 22
+                    },
+                    {
+                        "x": 459,
+                        "y": 22
+                    }
+                ]
+            }
+        }
+    },
+    "hero_power": {
+        "cost": {
+            "layer": 4,
+            "font": {
+                "color": "#50b3ff",
+                "family": "Lato",
+                "size": 60
+            },
+            "text": {
+                "x": 57,
+                "y": 67,
+                "width": 56,
+                "height": 52
+            },
+            "image": {
+                "assets": {
+                    "default": "default/cost.png"
+                },
+                "x": 39,
+                "y": 42,
+                "width": 91,
+                "height": 102
+            }
+        },
+        "name": {
+            "layer": 3,
+            "font": {
+                "type": "textBlock",
+                "color": "#FFFFFF",
+                "family": "Raleway Medium",
+                "size": 44
+            },
+            "text": {
+                "x": 39,
+                "y": 401,
+                "width": 400,
+                "height": 50
+            }
+        },
+        "description": {
+            "layer": 3,
+            "font": {
+                "type": "textBlock",
+                "color": "#FFFFFF",
+                "family": "Raleway",
+                "size": 26
+            },
+            "text": {
+                "x": 39,
+                "y": 461,
+                "width": 400,
+                "height": 120
+            }
+        },
+        "base": {
+            "layer": 2,
+            "image": {
+                "assets": {
+                    "default": "hero_power/base.png"
+                },
+                "x": 17,
+                "y": 20,
+                "width": 444,
+                "height": 624
+            }
+        },
+        "fade": {
+            "layer": 1,
+            "image": {
+                "assets": {
+                    "default": "hero_power/fade.png"
+                },
+                "x": 18,
+                "y": 275,
+                "width": 442,
+                "height": 368
+            }
+        },
+        "portrait": {
+            "layer": 0,
+            "image": {
+                "assets": {
+                    
+                },
+                "x": -32,
+                "y": -22,
+                "width": 540,
+                "height": 540
+            },
+            "clip": {
+                "type": "polygon",
+                "points": [
+                    {
+                        "x": 459,
+                        "y": 642
+                    },
+                    {
+                        "x": 19,
+                        "y": 642
+                    },
+                    {
+                        "x": 19,
+                        "y": 22
+                    },
+                    {
+                        "x": 459,
+                        "y": 22
                     }
                 ]
             }

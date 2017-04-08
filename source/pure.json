@@ -41,6 +41,17 @@
 				"color": "#FFFFFF",
 				"family": "Raleway",
 				"size": 26
+			},
+			"classDecoration": {
+				"color": "#FFFFFF",
+				"family": "Raleway",
+				"size": 26,
+				"case": "upper"
+			}
+		},
+		"hero": {
+			"name": {
+				"case": "upper"
 			}
 		}
 	}
