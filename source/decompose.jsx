@@ -55,15 +55,23 @@
 				defaultType = doc.layerSets[p];
 				continue;
 			}
-			// include only types not in the exclude list
+			// exclude types specified in the config
 			if (config.exclude.length <= 0) {
+				// nothing to exclude use the type
 				includedTypes.push(doc.layerSets[p]);
 			} else {
+				// compare type to excluded
+				var include = true;
 				for (q = 0; q < config.exclude.length; q++) {
-					if (doc.layerSets[p].name !== config.exclude[q]) {
-						logger.log("including " + doc.layerSets[p].name);
-						includedTypes.push(doc.layerSets[p]);
+					if (doc.layerSets[p].name == config.exclude[q]) {
+						include = false;
+						break;
 					}
+				}
+				// if this type is not excluded than use it
+				if (include) {
+					logger.log("including " + doc.layerSets[p].name);
+					includedTypes.push(doc.layerSets[p]);
 				}
 			}
 		}
