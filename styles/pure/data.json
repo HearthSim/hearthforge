@@ -107,6 +107,7 @@
             },
             "image": {
                 "assets": {
+                    "deathknight": "default/classDecoration_deathknight.png",
                     "warlock": "default/classDecoration_warlock.png",
                     "rogue": "default/classDecoration_rogue.png",
                     "druid": "default/classDecoration_druid.png",
@@ -351,6 +352,7 @@
             },
             "image": {
                 "assets": {
+                    "deathknight": "default/classDecoration_deathknight.png",
                     "warlock": "default/classDecoration_warlock.png",
                     "rogue": "default/classDecoration_rogue.png",
                     "druid": "default/classDecoration_druid.png",
@@ -534,6 +536,7 @@
             },
             "image": {
                 "assets": {
+                    "deathknight": "default/classDecoration_deathknight.png",
                     "warlock": "default/classDecoration_warlock.png",
                     "rogue": "default/classDecoration_rogue.png",
                     "druid": "default/classDecoration_druid.png",

@@ -251,6 +251,7 @@
             "layer": 2,
             "image": {
                 "assets": {
+                    "deathknight": "minion/classDecoration_deathknight.png",
                     "warrior": "minion/classDecoration_warrior.png",
                     "warlock": "minion/classDecoration_warlock.png",
                     "shaman": "minion/classDecoration_shaman.png",
@@ -262,9 +263,9 @@
                     "druid": "minion/classDecoration_druid.png",
                     "neutral": "minion/classDecoration_neutral.png"
                 },
-                "x": 71,
+                "x": 70,
                 "y": 89,
-                "width": 527,
+                "width": 528,
                 "height": 793
             }
         },
@@ -639,6 +640,7 @@
             "layer": 2,
             "image": {
                 "assets": {
+                    "deathknight": "minion_premium/classDecoration_deathknight.png",
                     "druid": "minion_premium/classDecoration_druid.png",
                     "hunter": "minion_premium/classDecoration_hunter.png",
                     "mage": "minion_premium/classDecoration_mage.png",
@@ -921,6 +923,7 @@
             "layer": 2,
             "image": {
                 "assets": {
+                    "deathknight": "spell/classDecoration_deathknight.png",
                     "neutral": "spell/classDecoration_neutral.png",
                     "warrior": "spell/classDecoration_warrior.png",
                     "warlock": "spell/classDecoration_warlock.png",
@@ -932,8 +935,8 @@
                     "hunter": "spell/classDecoration_hunter.png",
                     "druid": "spell/classDecoration_druid.png"
                 },
-                "x": 72,
-                "y": 132,
+                "x": 70,
+                "y": 133,
                 "width": 527,
                 "height": 746
             }
@@ -1171,6 +1174,7 @@
             "layer": 2,
             "image": {
                 "assets": {
+                    "deathknight": "spell_premium/classDecoration_deathknight.png",
                     "neutral": "spell_premium/classDecoration_neutral.png",
                     "warrior": "spell_premium/classDecoration_warrior.png",
                     "warlock": "spell_premium/classDecoration_warlock.png",
@@ -1183,9 +1187,9 @@
                     "druid": "spell_premium/classDecoration_druid.png"
                 },
                 "x": 220,
-                "y": 125,
+                "y": 126,
                 "width": 226,
-                "height": 755
+                "height": 754
             }
         },
         "base": {
@@ -1461,6 +1465,7 @@
             "layer": 2,
             "image": {
                 "assets": {
+                    "deathknight": "weapon/classDecoration_deathknight.png",
                     "neutral": "weapon/classDecoration_neutral.png",
                     "warrior": "weapon/classDecoration_warrior.png",
                     "warlock": "weapon/classDecoration_warlock.png",
@@ -1482,7 +1487,8 @@
             "layer": 1,
             "image": {
                 "assets": {
-                    "default": "weapon/base.png"
+                    "default": "weapon/base.png",
+                    "deathknight": "weapon/base_deathknight.png"
                 },
                 "x": 80,
                 "y": 103,
@@ -1799,6 +1805,7 @@
             "layer": 2,
             "image": {
                 "assets": {
+                    "deathknight": "weapon_premium/classDecoration_deathknight.png",
                     "neutral": "weapon_premium/classDecoration_neutral.png",
                     "warrior": "weapon_premium/classDecoration_warrior.png",
                     "warlock": "weapon_premium/classDecoration_warlock.png",
@@ -1813,7 +1820,7 @@
                 "x": 233,
                 "y": 533,
                 "width": 226,
-                "height": 348
+                "height": 347
             }
         },
         "base": {
