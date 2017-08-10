@@ -2210,7 +2210,7 @@
                 "height": 143
             }
         },
-        "health": {
+        "armor": {
             "layer": 7,
             "font": {
                 "color": "#FFFFFF",
@@ -2226,7 +2226,7 @@
             },
             "image": {
                 "assets": {
-                    "default": "hero/health.png"
+                    "default": "hero/armor.png"
                 },
                 "x": 498,
                 "y": 752,
@@ -2514,6 +2514,353 @@
                     {
                         "x": 291,
                         "y": 145
+                    }
+                ]
+            }
+        }
+    },
+    "hero_premium": {
+        "elite": {
+            "layer": 8,
+            "image": {
+                "assets": {
+                    "default": "hero_premium/elite.png"
+                },
+                "x": 172,
+                "y": 40,
+                "width": 444,
+                "height": 298
+            }
+        },
+        "cost": {
+            "layer": 7,
+            "font": {
+                "color": "#FFFFFF",
+                "outline": "#000000",
+                "family": "Belwe Bd BT",
+                "size": 137
+            },
+            "text": {
+                "x": 65,
+                "y": 124,
+                "width": 102,
+                "height": 104
+            },
+            "image": {
+                "assets": {
+                    "default": "hero_premium/cost.png"
+                },
+                "x": 47,
+                "y": 106,
+                "width": 139,
+                "height": 143
+            }
+        },
+        "armor": {
+            "layer": 7,
+            "font": {
+                "color": "#FFFFFF",
+                "outline": "#000000",
+                "family": "Belwe Bd BT",
+                "size": 126
+            },
+            "text": {
+                "x": 506,
+                "y": 774,
+                "width": 96,
+                "height": 96
+            },
+            "image": {
+                "assets": {
+                    "default": "hero_premium/armor.png"
+                },
+                "x": 498,
+                "y": 752,
+                "width": 115,
+                "height": 135
+            }
+        },
+        "name": {
+            "layer": 6,
+            "font": {
+                "color": "#FFFFFF",
+                "outline": "#000000",
+                "family": "Belwe Bd BT",
+                "size": 34
+            },
+            "textCurve": {
+                "start": {
+                    "x": 147,
+                    "y": 539
+                },
+                "c1": {
+                    "x": 147,
+                    "y": 539
+                },
+                "end": {
+                    "x": 528,
+                    "y": 539
+                },
+                "c2": {
+                    "x": 334,
+                    "y": 451
+                }
+            },
+            "image": {
+                "assets": {
+                    "default": "hero_premium/name.png"
+                },
+                "x": 91,
+                "y": 458,
+                "width": 490,
+                "height": 122
+            }
+        },
+        "rarity": {
+            "layer": 5,
+            "image": {
+                "assets": {
+                    "common": "hero_premium/rarity_common.png",
+                    "rare": "hero_premium/rarity_rare.png",
+                    "epic": "hero_premium/rarity_epic.png",
+                    "legendary": "hero_premium/rarity_legendary.png"
+                },
+                "x": 311,
+                "y": 530,
+                "width": 42,
+                "height": 58
+            }
+        },
+        "description": {
+            "layer": 4,
+            "font": {
+                "type": "textBlock",
+                "color": "#FFFFFF",
+                "family": "Franklin Gothic FS",
+                "size": 38
+            },
+            "text": {
+                "x": 143,
+                "y": 627,
+                "width": 376,
+                "height": 168
+            }
+        },
+        "custom": {
+            "layer": 3,
+            "custom": {
+                "setIcons": "sets",
+                "raceOffset": -16,
+                "blendIntensity": 2,
+                "tint": {
+                    "minion": {
+                        "r": 0.57,
+                        "g": 0.56,
+                        "b": 0.55,
+                        "a": 0.78
+                    },
+                    "spell": {
+                        "r": 0.57,
+                        "g": 0.56,
+                        "b": 0.55,
+                        "a": 0.78
+                    },
+                    "weapon": {
+                        "r": 0.67,
+                        "g": 0.66,
+                        "b": 0.64,
+                        "a": 0.78
+                    },
+                    "hero": {
+                        "r": 0.57,
+                        "g": 0.56,
+                        "b": 0.55,
+                        "a": 0.78
+                    },
+                    "premium": {
+                        "r": 0.57,
+                        "g": 0.56,
+                        "b": 0.55,
+                        "a": 0.78
+                    }
+                },
+                "region": {
+                    "x": 247,
+                    "y": 625,
+                    "width": 170,
+                    "height": 170
+                },
+                "image": {
+                    "assets": {
+                        "base": "hero_premium/custom_base.png"
+                    },
+                    "x": 100,
+                    "y": 547,
+                    "width": 461,
+                    "height": 294
+                },
+                "name": "set_watermark"
+            }
+        },
+        "classDecoration": {
+            "layer": 2,
+            "image": {
+                "assets": {
+                    "neutral": "hero_premium/classDecoration_neutral.png",
+                    "warrior": "hero_premium/classDecoration_warrior.png",
+                    "warlock": "hero_premium/classDecoration_warlock.png",
+                    "shaman": "hero_premium/classDecoration_shaman.png",
+                    "rogue": "hero_premium/classDecoration_rogue.png",
+                    "priest": "hero_premium/classDecoration_priest.png",
+                    "paladin": "hero_premium/classDecoration_paladin.png",
+                    "mage": "hero_premium/classDecoration_mage.png",
+                    "hunter": "hero_premium/classDecoration_hunter.png",
+                    "druid": "hero_premium/classDecoration_druid.png",
+                    "deathknight": "hero_premium/classDecoration_deathknight.png"
+                },
+                "x": 224,
+                "y": 529,
+                "width": 223,
+                "height": 356
+            }
+        },
+        "base": {
+            "layer": 1,
+            "image": {
+                "assets": {
+                    "default": "hero_premium/base.png"
+                },
+                "x": 70,
+                "y": 86,
+                "width": 527,
+                "height": 799
+            }
+        },
+        "portrait": {
+            "layer": 0,
+            "image": {
+                "assets": {
+                    
+                },
+                "x": 161,
+                "y": 137,
+                "width": 346,
+                "height": 346
+            },
+            "clip": {
+                "type": "polygon",
+                "points": [
+                    {
+                        "x": 334,
+                        "y": 130
+                    },
+                    {
+                        "x": 369,
+                        "y": 139
+                    },
+                    {
+                        "x": 407,
+                        "y": 161
+                    },
+                    {
+                        "x": 436,
+                        "y": 184
+                    },
+                    {
+                        "x": 455,
+                        "y": 211
+                    },
+                    {
+                        "x": 471,
+                        "y": 244
+                    },
+                    {
+                        "x": 481,
+                        "y": 269
+                    },
+                    {
+                        "x": 483,
+                        "y": 290
+                    },
+                    {
+                        "x": 485,
+                        "y": 333
+                    },
+                    {
+                        "x": 485,
+                        "y": 382
+                    },
+                    {
+                        "x": 485,
+                        "y": 441
+                    },
+                    {
+                        "x": 486,
+                        "y": 489
+                    },
+                    {
+                        "x": 436,
+                        "y": 477
+                    },
+                    {
+                        "x": 390,
+                        "y": 471
+                    },
+                    {
+                        "x": 346,
+                        "y": 469
+                    },
+                    {
+                        "x": 297,
+                        "y": 470
+                    },
+                    {
+                        "x": 239,
+                        "y": 477
+                    },
+                    {
+                        "x": 183,
+                        "y": 490
+                    },
+                    {
+                        "x": 182,
+                        "y": 448
+                    },
+                    {
+                        "x": 180,
+                        "y": 358
+                    },
+                    {
+                        "x": 182,
+                        "y": 302
+                    },
+                    {
+                        "x": 186,
+                        "y": 270
+                    },
+                    {
+                        "x": 196,
+                        "y": 238
+                    },
+                    {
+                        "x": 208,
+                        "y": 215
+                    },
+                    {
+                        "x": 221,
+                        "y": 195
+                    },
+                    {
+                        "x": 238,
+                        "y": 175
+                    },
+                    {
+                        "x": 261,
+                        "y": 157
+                    },
+                    {
+                        "x": 290,
+                        "y": 141
                     }
                 ]
             }

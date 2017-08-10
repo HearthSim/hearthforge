@@ -56,6 +56,12 @@
 				"family": "Belwe Bd BT",
 				"size": 126
 			},
+			"armor": {
+				"color": "#FFFFFF",
+				"outline": "#000000",
+				"family": "Belwe Bd BT",
+				"size": 126
+			},
 			"attack": {
 				"color": "#FFFFFF",
 				"outline": "#000000",
@@ -97,6 +103,11 @@
 			}
 		},
 		"weapon_premium": {
+			"description": {
+				"color": "#FFFFFF"
+			}
+		},
+		"hero_premium": {
 			"description": {
 				"color": "#FFFFFF"
 			}
