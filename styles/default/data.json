@@ -1267,6 +1267,18 @@
         }
     },
     "weapon": {
+		"elite": {
+            "layer": 8,
+            "image": {
+                "assets": {
+                    "default": "weapon/elite.png"
+                },
+                "x": 199,
+                "y": 62,
+                "width": 420,
+                "height": 247
+            }
+        },
         "cost": {
             "layer": 7,
             "font": {
@@ -1595,6 +1607,18 @@
         }
     },
     "weapon_premium": {
+		"elite": {
+            "layer": 9,
+            "image": {
+                "assets": {
+                    "default": "weapon_premium/elite.png"
+                },
+                "x": 197,
+                "y": 63,
+                "width": 420,
+                "height": 247
+            }
+        },
         "cost": {
             "layer": 8,
             "font": {
